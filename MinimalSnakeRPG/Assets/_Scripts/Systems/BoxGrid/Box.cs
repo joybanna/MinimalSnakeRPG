@@ -52,19 +52,19 @@ public class Box : MonoBehaviour
         {
             if (grid.x < box.grid.x)
             {
-                direction = UnitDirection.Right;
+                direction = UnitDirection.Left;
             }
             else if (grid.x > box.grid.x)
             {
-                direction = UnitDirection.Left;
+                direction = UnitDirection.Right;
             }
             else if (grid.y < box.grid.y)
             {
-                direction = UnitDirection.Up;
+                direction = UnitDirection.Down;
             }
             else if (grid.y > box.grid.y)
             {
-                direction = UnitDirection.Down;
+                direction = UnitDirection.Up;
             }
             return true; 
         }

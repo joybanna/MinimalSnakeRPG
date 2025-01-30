@@ -7,4 +7,16 @@
                (dirMain == UnitDirection.Left && dirSub == UnitDirection.Right) ||
                (dirMain == UnitDirection.Right && dirSub == UnitDirection.Left);
     }
+
+    public static UnitDirection GetOppositeDirection(this UnitDirection dir)
+    {
+        return dir switch
+        {
+            UnitDirection.Up => UnitDirection.Down,
+            UnitDirection.Down => UnitDirection.Up,
+            UnitDirection.Left => UnitDirection.Right,
+            UnitDirection.Right => UnitDirection.Left,
+            _ => UnitDirection.Up
+        };
+    }
 }

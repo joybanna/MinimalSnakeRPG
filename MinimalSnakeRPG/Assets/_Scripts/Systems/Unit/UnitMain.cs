@@ -16,7 +16,7 @@ public class UnitMain : MonoBehaviour
 
     public void OnUnitRecruited()
     {
-        unitMovement.enabled = true;
-        unitCollisionDetect.enabled = false;
+        unitMovement.enabled = false;
+        unitCollisionDetect.DisableCollisionDetect();
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UnitCollisionDetect : MonoBehaviour
 {
     private string _myTag;
+    [SerializeField] private Collider2D myCollider;
 
     private void Start()
     {
@@ -20,6 +22,20 @@ public class UnitCollisionDetect : MonoBehaviour
         if (other.CompareTag("Hero"))
         {
             CustomDebug.SetMessage("Hero Collision : Recruit Hero", Color.yellow);
+            var unitMain = other.GetComponent<UnitMain>();
+            HeroHeadGroup.instance.RecruitHero(unitMain);
         }
+    }
+
+    public void EnableCollisionDetect()
+    {
+        enabled = true;
+        myCollider.enabled = true;
+    }
+
+    public void DisableCollisionDetect()
+    {
+        enabled = false;
+        myCollider.enabled = false;
     }
 }

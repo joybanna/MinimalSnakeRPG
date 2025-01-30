@@ -17,8 +17,8 @@ public class CrateGridBoxes : MonoBehaviour
             {
                 Vector3 pos = new Vector3(x * spacing, z * spacing);
                 var box = Instantiate(boxPrefab, pos, Quaternion.identity, this.transform);
-
                 box.InitBox(x, z);
+                gridBoxesCollector.AddGridBox(box);
             }
         }
     }

@@ -12,9 +12,9 @@ public class HeroControl : MonoBehaviour
     public void Move(UnitDirection dir)
     {
         _lastInputTime = Time.time;
-        if (headGroup.IsMoveAble(dir))
+        if (GridBoxesCollector.instance.IsMoveAble(dir))
         {
-            CustomDebug.SetMessage($"Move {dir}", Color.green);
+            // CustomDebug.SetMessage($"Move {dir}", Color.green);
             headGroup.Move(dir);
             GameplayStateController.instance.OnPlayerTurnEnd();
             this.enabled = false;
@@ -24,7 +24,7 @@ public class HeroControl : MonoBehaviour
             CustomDebug.SetMessage("Can't move to opposite direction", Color.yellow);
         }
     }
-    
+
     public void OpenInputControl()
     {
         this.enabled = true;

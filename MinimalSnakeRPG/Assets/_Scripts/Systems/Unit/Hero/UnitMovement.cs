@@ -40,29 +40,13 @@ public class UnitMovement : MonoBehaviour
         SetRotation();
     }
 
-    public void Move(UnitDirection dir)
+    public void Move(UnitDirection dir, Box box)
     {
         _previousDirection = direction;
         direction = dir;
 
-        Vector3 pos = transform.position;
-        switch (direction)
-        {
-            case UnitDirection.Up:
-                pos.y += gridPadding + gridSize;
-                break;
-            case UnitDirection.Down:
-                pos.y -= gridPadding + gridSize;
-                break;
-            case UnitDirection.Left:
-                pos.x -= gridPadding + gridSize;
-                break;
-            case UnitDirection.Right:
-                pos.x += gridPadding + gridSize;
-                break;
-        }
-
-        this.transform.position = pos;
+        // Vector3 pos = box.transform.position;
+        this.transform.position = box.transform.position;
         SetRotation();
     }
 
@@ -73,10 +57,10 @@ public class UnitMovement : MonoBehaviour
 
     private void SetRotation()
     {
-        Debug.Log($"Direction : {direction} - Previous : {_previousDirection}");
+        // Debug.Log($"Direction : {direction} - Previous : {_previousDirection}");
         if (direction == _previousDirection) return;
         var zEulerAngle = GetZEulerAngle(direction);
-        Debug.Log($"Z-Euler : {zEulerAngle}");
+        // Debug.Log($"Z-Euler : {zEulerAngle}");
         this.transform.rotation = Quaternion.Euler(0, 0, zEulerAngle);
     }
 

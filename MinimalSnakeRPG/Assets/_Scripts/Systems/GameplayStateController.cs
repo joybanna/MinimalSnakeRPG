@@ -33,19 +33,21 @@ public class GameplayStateController : MonoBehaviour
     {
         CurrentState = GameplayState.EnemyTurn;
         GridBoxesCollector.instance.HideMoveableArea();
-        Debug.Log("to Enemy Turn");
+        EnemyTurnController.instance.OnEnemyTurnStart();
+     
     }
 
     public void OnEnemyTurnEnd()
     {
         CurrentState = GameplayState.PlayerTurn;
         headGroup.OnPlayerTurnStart();
-        Debug.Log("to Player Turn");
+        // Debug.Log("to Player Turn");
     }
 
     public void OnGameEnd()
     {
         CurrentState = GameplayState.NullState;
-        Debug.Log("Game End");
+        // Debug.Log("Game End");
     }
 }
+

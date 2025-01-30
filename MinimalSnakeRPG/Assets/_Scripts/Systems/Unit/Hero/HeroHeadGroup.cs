@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class HeroHeadGroup : MonoBehaviour
 {
+    public static HeroHeadGroup instance;
     [SerializeField] private List<UnitMain> heroMovements;
     [SerializeField] private UnitMain head;
     [SerializeField] private HistoryMove historyMove;
@@ -13,6 +14,15 @@ public class HeroHeadGroup : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         heroMovements = new List<UnitMain>();
         heroMovements.Add(head);
     }
@@ -25,25 +35,33 @@ public class HeroHeadGroup : MonoBehaviour
 
     public void Move(UnitDirection dir)
     {
-        head.UnitMovement.Move(dir);
-        historyMove.AddHistory(dir);
-    }
+        var box = GridBoxesCollector.instance.GetBoxMoved(dir);
+        if (box == null)
+        {
+            CustomDebug.SetMessage("Can't move box is null", Color.red);
+            return;
+        }
 
-    public bool IsMoveAble(UnitDirection dir)
-    {
-        return !head.UnitMovement.IsOppositeDirection(dir);
+        head.UnitMovement.Move(dir, box);
+        historyMove.AddHistory(dir, box);
+
+        // move other hero
+        for (var index = 0; index < heroMovements.Count; index++)
+        {
+            var heroMovement = heroMovements[index];
+            if (heroMovement == head) continue;
+            var heroBox = historyMove.GetHeroPos(index);
+            heroMovement.UnitMovement.Move(dir, heroBox);
+        }
     }
 
     public void RecruitHero(UnitMain unitMain)
     {
+        var box = historyMove.GetLastHeroPos(heroMovements.Count);
+        CustomDebug.SetMessage($"Recruit Hero at {box.name} : {heroMovements.Count}", Color.green);
+        unitMain.OnUnitRecruited();
+        unitMain.UnitMovement.Move(head.UnitMovement.CurrentDirection, box);
         heroMovements.Add(unitMain);
-    }
-
-    public void SwapHead(UnitMovement other)
-    {
-        // var tempPos = head.transform.position;
-        // head.transform.position = other.transform.position;
-        // other.transform.position = tempPos;
     }
 
     public void OnPlayerTurnStart()
@@ -53,5 +71,14 @@ public class HeroHeadGroup : MonoBehaviour
         GridBoxesCollector.instance.ShowMoveableArea(currentBox, head.UnitMovement.CurrentDirection);
         // open input control
         heroControl.OpenInputControl();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (heroMovements == null || heroMovements.Count == 0) return;
+        var box = historyMove.GetLastHeroPos(heroMovements.Count);
+        if (box == null) return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(box.transform.position, 0.5f);
     }
 }

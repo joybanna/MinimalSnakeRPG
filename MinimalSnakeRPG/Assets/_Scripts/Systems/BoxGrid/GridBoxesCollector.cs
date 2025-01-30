@@ -18,6 +18,8 @@ public class GridBoxesCollector : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _currentNeighbours = new Dictionary<UnitDirection, Box>();
     }
 
     public void AddGridBox(Box box)
@@ -26,7 +28,7 @@ public class GridBoxesCollector : MonoBehaviour
         gridBoxes.Add(box);
     }
 
-    public Dictionary<UnitDirection, Box> GetNeighbours(Box box)
+    private Dictionary<UnitDirection, Box> GetNeighbours(Box box)
     {
         var neighbours = new Dictionary<UnitDirection, Box>();
         for (var index = gridBoxes.Count - 1; index >= 0; index--)
@@ -43,6 +45,7 @@ public class GridBoxesCollector : MonoBehaviour
                 continue;
             }
 
+            // CustomDebug.SetMessage("Neighbour : " + direction, Color.green);
             neighbours.TryAdd(direction, gridBox);
         }
 
@@ -54,13 +57,30 @@ public class GridBoxesCollector : MonoBehaviour
     public void ShowMoveableArea(Box box, UnitDirection headDir)
     {
         _currentNeighbours = GetNeighbours(box);
+        // CustomDebug.SetMessage($"Neighbours : {_currentNeighbours.Count}", Color.yellow);
         if (_currentNeighbours == null) return;
+        _currentNeighbours = RemoveOppositeDirection(headDir);
         foreach (var neighbour in _currentNeighbours)
         {
             var isCrossDirection = headDir.IsOppositeDirection(neighbour.Key);
             if (isCrossDirection) continue;
             neighbour.Value.ShowMoveableArea(true);
         }
+    }
+
+    private Dictionary<UnitDirection, Box> RemoveOppositeDirection(UnitDirection headDir)
+    {
+        var tempNeighbours = new Dictionary<UnitDirection, Box>(_currentNeighbours);
+        foreach (var neighbour in _currentNeighbours)
+        {
+            var isCrossDirection = headDir.IsOppositeDirection(neighbour.Key);
+            if (isCrossDirection)
+            {
+                tempNeighbours.Remove(neighbour.Key);
+            }
+        }
+
+        return tempNeighbours;
     }
 
     public void HideMoveableArea()
@@ -70,5 +90,23 @@ public class GridBoxesCollector : MonoBehaviour
         {
             neighbour.Value.ShowMoveableArea(false);
         }
+    }
+
+    public Box GetBoxMoved(UnitDirection direction)
+    {
+        if (_currentNeighbours.TryGetValue(direction, out var box))
+        {
+            return box;
+        }
+        else
+        {
+            CustomDebug.SetMessage("No Box Found", Color.red);
+            return null;
+        }
+    }
+
+    public bool IsMoveAble(UnitDirection direction)
+    {
+        return _currentNeighbours.ContainsKey(direction);
     }
 }
