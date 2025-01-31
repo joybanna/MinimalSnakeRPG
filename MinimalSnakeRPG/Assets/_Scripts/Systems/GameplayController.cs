@@ -6,8 +6,7 @@ public class GameplayController : MonoBehaviour
     public static GameplayController instance;
 
     [SerializeField] private HeroHeadGroup headGroup;
-
-    [SerializeField] private Box startBox;
+    
 
     private void Awake()
     {
@@ -19,12 +18,5 @@ public class GameplayController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void Start()
-    {
-        headGroup.InitHero(startBox, UnitDirection.Up);
-
-        headGroup.OnPlayerTurnStart();
     }
 }

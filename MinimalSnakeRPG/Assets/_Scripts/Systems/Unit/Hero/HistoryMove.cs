@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class HistoryMove : MonoBehaviour
 {
+    public static HistoryMove instance;
     [SerializeField] private List<Box> historyBoxes;
     [SerializeField] private List<UnitDirection> historyDirections;
 
     private void Awake()
     {
-        historyBoxes = new List<Box>();
-        historyDirections = new List<UnitDirection>();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void InitHistory(Box box, UnitDirection direction)
     {
+        historyBoxes = new List<Box>();
+        historyDirections = new List<UnitDirection>();
         historyBoxes.Add(box);
         historyDirections.Add(direction);
     }
@@ -28,7 +37,7 @@ public class HistoryMove : MonoBehaviour
 
     public Box GetCurrentBox()
     {
-        if (historyBoxes.Count == 0 || historyBoxes == null)
+        if (historyBoxes.IsEmptyCollection())
         {
             CustomDebug.SetMessage("History Box is null", Color.red);
             return null;
@@ -39,9 +48,9 @@ public class HistoryMove : MonoBehaviour
 
     public Box GetLastHeroPos(int currentIndex)
     {
-        if (historyBoxes.Count == 0 || historyBoxes == null)
+        if (historyBoxes.IsEmptyCollection() || currentIndex > historyBoxes.Count)
         {
-            CustomDebug.SetMessage("History Box is null", Color.red);
+            // CustomDebug.SetMessage("History Box is null", Color.red);
             return null;
         }
 
@@ -49,27 +58,14 @@ public class HistoryMove : MonoBehaviour
         return historyBoxes[index];
     }
 
-    public Box GetHeroPos(int indexHero)
+    public UnitDirection GetLastHeroDir(int currentIndex)
     {
-        if (historyBoxes.Count == 0 || historyBoxes == null)
+        if (historyDirections.IsEmptyCollection() || currentIndex > historyDirections.Count)
         {
-            CustomDebug.SetMessage("History Box is null", Color.red);
-            return null;
+            return UnitDirection.None;
         }
 
-        var index = historyBoxes.Count - (indexHero);
-        return historyBoxes[index];
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (historyBoxes == null || historyBoxes.Count <= 3) return;
-        var cap = historyBoxes.Count - 3;
-        for (var index = historyBoxes.Count - 1; index >= cap; index--)
-        {
-            var box = historyBoxes[index];
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(box.transform.position, Vector3.one * 0.5f);
-        }
+        var index = historyDirections.Count - currentIndex;
+        return historyDirections[index];
     }
 }

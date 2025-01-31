@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342c10af8a364257aa17be01a3e62785, type: 3}
+  m_Name: DataPrefabsSpawnable
+  m_EditorClassIdentifier: 
+  boxGridPrefab: {fileID: 3863112814396359913, guid: ec6b25b3c5165f5459a95f930c71924e, type: 3}
+  heroWarriorPrefab: {fileID: 7850087879998228625, guid: 75d71c627fdf9f54db2331c7e067de8f, type: 3}
+  heroRoguePrefab: {fileID: 8022792813430926759, guid: e158ccaf897c315459abe08d2d585bfc, type: 3}
+  heroWizardPrefab: {fileID: 509707364040675558, guid: bcf5001d356cf4548b6820374e92d82c, type: 3}
+  enemyWarriorPrefab: {fileID: 7850087879998228625, guid: b1beeec5d3abb5c41b6e56fb97302e8f, type: 3}
+  enemyRoguePrefab: {fileID: 8022792813430926759, guid: d764a65649537ac4dae1797f084aa4bb, type: 3}
+  enemyWizardPrefab: {fileID: 509707364040675558, guid: 150b79470be00d14db7ab26548ddad4d, type: 3}

@@ -1,4 +1,6 @@
-﻿public enum UnitClass
+﻿using System;
+
+public enum UnitClass
 {
     None = 0,
     Warrior = 1,
@@ -6,13 +8,14 @@
     Wizard = 3,
 }
 
+[Serializable]
 public struct UnitStat
 {
     public int hp;
     public int attack;
     public int defense;
 
-    public UnitStat(int hp, int attack, int defense)
+    public UnitStat( int hp, int attack, int defense)
     {
         this.hp = hp;
         this.attack = attack;
@@ -25,4 +28,6 @@ public struct UnitStat
         attack = this.CalAtkOnLevel(level);
         defense = this.CalDefOnLevel(level);
     }
+    
+    
 }

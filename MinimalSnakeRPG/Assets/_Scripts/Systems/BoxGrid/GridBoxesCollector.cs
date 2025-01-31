@@ -7,6 +7,7 @@ public class GridBoxesCollector : MonoBehaviour
     public static GridBoxesCollector instance;
 
     [SerializeField] private List<Box> gridBoxes;
+    public List<Box> GridBoxes => gridBoxes;
 
     private void Awake()
     {
@@ -44,6 +45,8 @@ public class GridBoxesCollector : MonoBehaviour
             {
                 continue;
             }
+
+            if (!gridBox.BoxIsMovable()) continue;
 
             // CustomDebug.SetMessage("Neighbour : " + direction, Color.green);
             neighbours.TryAdd(direction, gridBox);
@@ -109,4 +112,34 @@ public class GridBoxesCollector : MonoBehaviour
     {
         return _currentNeighbours.ContainsKey(direction);
     }
+
+    public bool IsBorderBox(Box box)
+    {
+        var sum = box.Grid.x + box.Grid.y;
+        return sum <= 1;
+    }
 }
+
+#if UNITY_EDITOR
+
+[UnityEditor.CustomEditor(typeof(GridBoxesCollector), true)]
+public class GridBoxesCollectorEditor : UnityEditor.Editor
+{
+    private GridBoxesCollector _gridBoxesCollector;
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        _gridBoxesCollector = (GridBoxesCollector)target;
+
+        if (GUILayout.Button("ResetColorGrids"))
+        {
+            foreach (var box in _gridBoxesCollector.GridBoxes)
+            {
+                box.BoxStatus = BoxStatus.Empty;
+            }
+        }
+    }
+}
+
+#endif

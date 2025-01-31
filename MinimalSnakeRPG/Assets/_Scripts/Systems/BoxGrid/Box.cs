@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +12,23 @@ public enum BoxStatus
     Blind = 5,
 }
 
-public class Box : MonoBehaviour
+public class Box : MonoBehaviour, IEquatable<Box>
 {
     [SerializeField] private Vector2 grid;
-    public BoxStatus BoxStatus { get; set; }
+
+    public BoxStatus BoxStatus
+    {
+        get => showStatus;
+        set
+        {
+            showStatus = value;
+            boxGuide.SetColor(value);
+        }
+    }
 
     [SerializeField] private BoxGuide boxGuide;
 
+    [SerializeField] private BoxStatus showStatus;
     public Vector2 Grid => grid;
 
     public void InitBox(int x, int y)
@@ -25,12 +36,6 @@ public class Box : MonoBehaviour
         grid = new Vector2(x, y);
         BoxStatus = BoxStatus.Empty;
         this.name = $"Box({x},{y})";
-    }
-
-    public void SetBoxStatus(BoxStatus status)
-    {
-        BoxStatus = status;
-        CustomDebug.SetMessage($"Box Status : {BoxStatus} , {grid}", Color.yellow);
     }
 
     public void ShowMoveableArea(bool isShow)
@@ -43,7 +48,7 @@ public class Box : MonoBehaviour
         var xDiff = Mathf.Abs(grid.x - box.grid.x);
         var yDiff = Mathf.Abs(grid.y - box.grid.y);
         direction = UnitDirection.Up;
-        
+
         if (!Mathf.Approximately(xDiff + yDiff, 1))
         {
             return false;
@@ -66,9 +71,46 @@ public class Box : MonoBehaviour
             {
                 direction = UnitDirection.Up;
             }
-            return true; 
+
+            return true;
         }
-        
-        
+    }
+
+    public bool BoxIsMovable()
+    {
+        return BoxStatus switch
+        {
+            BoxStatus.Empty => true,
+            BoxStatus.Collectible => true,
+            BoxStatus.Enemy => true,
+            BoxStatus.Obstacle => true,
+            BoxStatus.Hero => true,
+            _ => false
+        };
+    }
+
+    public bool IsBorderBox()
+    {
+        return false;
+    }
+
+    public bool Equals(Box other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return base.Equals(other) && grid.Equals(other.grid) && showStatus == other.showStatus;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((Box)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), grid, (int)showStatus);
     }
 }

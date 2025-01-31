@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum UnitDirection
 {
+    None = -1,
     Up = 0,
     Down = 1,
     Left = 2,
@@ -17,50 +18,52 @@ public enum UnitType
 
 public class UnitMovement : MonoBehaviour
 {
-    [SerializeField] private UnitType unitType = UnitType.Hero;
+    private UnitType _unitType;
     [SerializeField] private float gridPadding = 0.1f;
     [SerializeField] private float gridSize = 1.0f;
     [SerializeField] private UnitDirection direction = UnitDirection.Up;
     private UnitDirection _previousDirection = UnitDirection.Up;
 
-    [SerializeField] private bool isStandalone = false;
-
     public UnitDirection CurrentDirection => direction;
 
-    private void Start()
-    {
-        if (isStandalone) Init(UnitType.Hero, unitType == UnitType.Hero ? UnitDirection.Up : UnitDirection.Down);
-    }
+    [SerializeField] private Box _currentBox;
+    [SerializeField] private Box _previousBox;
 
-    public void Init(UnitType uType, UnitDirection dir)
+    public Box CurrentBox => _currentBox;
+
+    public void Init(UnitType uType, UnitDirection dir, Box box)
     {
-        unitType = uType;
+        _unitType = uType;
         direction = dir;
         _previousDirection = dir;
+        this.transform.position = box.transform.position;
         SetRotation();
+        SetBoxStatus(box);
     }
 
     public void Move(UnitDirection dir, Box box)
     {
         _previousDirection = direction;
         direction = dir;
-
-        // Vector3 pos = box.transform.position;
         this.transform.position = box.transform.position;
         SetRotation();
+        SetBoxStatus(box);
     }
 
-    public bool IsOppositeDirection(UnitDirection dir)
+    public void SetBoxStatus(Box currentBox)
     {
-        return direction.IsOppositeDirection(dir);
+        if (_currentBox != null)
+        {
+            _currentBox.BoxStatus = BoxStatus.Empty;
+        }
+
+        _currentBox = currentBox;
+        _currentBox.BoxStatus = _unitType == UnitType.Hero ? BoxStatus.Hero : BoxStatus.Enemy;
     }
 
     private void SetRotation()
     {
-        // Debug.Log($"Direction : {direction} - Previous : {_previousDirection}");
-        if (direction == _previousDirection) return;
         var zEulerAngle = GetZEulerAngle(direction);
-        // Debug.Log($"Z-Euler : {zEulerAngle}");
         this.transform.rotation = Quaternion.Euler(0, 0, zEulerAngle);
     }
 
