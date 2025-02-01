@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class CalculateStats
 {
@@ -17,19 +18,15 @@ public static class CalculateStats
         return stat.hp + level;
     }
 
-    public static int CalDamage(this UnitStat stat, int bonus)
+    public static int CalDamage(this UnitStat stat, UnitStat bonus)
     {
-        return stat.attack + bonus;
+        return stat.attack + bonus.attack;
     }
 
-    public static int CalHeal(this UnitStat stat, int bonus)
-    {
-        return stat.hp + bonus;
-    }
 
-    public static int CalDefend(this UnitStat stat, int bonus)
+    public static int CalDefend(this UnitStat stat, UnitStat bonus)
     {
-        return stat.defense + bonus;
+        return stat.defense + bonus.defense;
     }
 
     public static int CalDamaged(this UnitClass defenderClass, int finalDefender, InfoDamage infoDamage)
@@ -43,36 +40,23 @@ public static class CalculateStats
 
     public static int GetWeakness(this UnitClass def, UnitClass atk)
     {
-        return 1;
+        if (def == atk) return 1;
         switch (def)
         {
-            case UnitClass.Warrior:
-                switch (atk)
-                {
-                    case UnitClass.Warrior:
-                        return 1;
-                    case UnitClass.Rogue:
-                        return 2;
-                    case UnitClass.Wizard:
-                        return 1;
-                }
-
-                break;
-            case UnitClass.Rogue when atk == UnitClass.Warrior:
-                return 1;
-            case UnitClass.Rogue when atk == UnitClass.Rogue:
-                return 1;
+            case UnitClass.Warrior when atk == UnitClass.Rogue:
             case UnitClass.Rogue when atk == UnitClass.Wizard:
             case UnitClass.Wizard when atk == UnitClass.Warrior:
                 return 2;
-            case UnitClass.Wizard when atk == UnitClass.Rogue:
-                return 3;
-            case UnitClass.Wizard when atk == UnitClass.Wizard:
+            default:
                 return 1;
         }
-
-        return 1;
     }
 
-  
+    private static UnitClass[] _unitClasses = { UnitClass.Warrior, UnitClass.Rogue, UnitClass.Wizard };
+
+    public static UnitClass RandomUnitClass()
+    {
+        var index = UnityEngine.Random.Range(0, _unitClasses.Length);
+        return _unitClasses[index];
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,16 +54,36 @@ public class SpawnController : MonoBehaviour
         return false;
     }
 
-    public bool GetUnitDamaged(UnitType defender, Box box, out UnitMain unit)
+    [SerializeField] private int wave;
+
+    public void SpawnWave()
     {
-        unit = null;
-        switch (defender)
+        StartCoroutine(ChainSpawnUnits());
+    }
+
+
+    public void NextWave()
+    {
+        wave++;
+        CustomDebug.SetMessage("NextWave: " + wave, Color.green);
+        SpawnWave();
+    }
+
+    private IEnumerator ChainSpawnUnits()
+    {
+        yield return SpawnUnits(UnitType.Enemy);
+        yield return SpawnUnits(UnitType.Hero);
+    }
+
+    private IEnumerator SpawnUnits(UnitType unitType)
+    {
+        var count = CalculateSpawnMap.GetContSpawnUnit(unitType, wave);
+        if (count == 0) yield break;
+        var selected = unitType == UnitType.Hero ? spawnHero : spawnEnemy;
+        for (int i = 0; i < count; i++)
         {
-            case UnitType.Hero when spawnHero.GetUnitOnMap(box, out unit):
-            case UnitType.Enemy when spawnEnemy.GetUnitOnMap(box, out unit):
-                return true;
-            default:
-                return false;
+            selected.SpawnUnitRandomClass();
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }
@@ -77,11 +98,17 @@ public class SpawnControllerEditor : UnityEditor.Editor
 
     public override void OnInspectorGUI()
     {
-        _spawnController = (SpawnController)target;
         base.OnInspectorGUI();
+        _spawnController = (SpawnController)target;
+
         if (GUILayout.Button("Shuffle Boxes"))
         {
             _spawnController.ShuffleListBoxes();
+        }
+
+        if (GUILayout.Button("Spawn Wave"))
+        {
+            _spawnController.SpawnWave();
         }
     }
 }

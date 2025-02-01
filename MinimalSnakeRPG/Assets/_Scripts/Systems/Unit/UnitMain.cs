@@ -25,6 +25,8 @@ public class UnitMain : MonoBehaviour
         unitStatus.Init(infoInitUnit.unitType, infoInitUnit.level);
 
         unitLevelProgression.AssignOnUnitLevelUp(OnUnitLevelUp);
+
+        UnitsCollector.instance.OnUnitEntry(unitType, this);
     }
 
 
@@ -63,7 +65,8 @@ public class UnitMain : MonoBehaviour
             CurrentBox.BoxStatus = BoxStatus.Empty;
             var exp = unitLevelProgression.CalculateExp();
             HeroHeadGroup.instance.OnEnemyDie(exp);
-            this.gameObject.SetActive(false);
         }
+
+        UnitsCollector.instance.OnUnitExit(unitType, this);
     }
 }

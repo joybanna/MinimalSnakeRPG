@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2753119337354114035}
   - component: {fileID: 1248287948971550282}
   - component: {fileID: 1277131485542362686}
+  - component: {fileID: 6466764624844755833}
   m_Layer: 0
   m_Name: enemy_wizard
   m_TagString: Enemy
@@ -252,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62c59832798b934ea1db04c086f12ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _myTag: 
   myCollider: {fileID: 1071450645940495314}
 --- !u!114 &1248287948971550282
 MonoBehaviour:
@@ -280,6 +282,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitStatus: {fileID: 1248287948971550282}
+--- !u!114 &6466764624844755833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458524507887218726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5fb3b070c74bafbfa721758d4b9a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isMovable: 0
+  _unitMain: {fileID: 509707364040675558}
 --- !u!1 &5230896195574887630
 GameObject:
   m_ObjectHideFlags: 0

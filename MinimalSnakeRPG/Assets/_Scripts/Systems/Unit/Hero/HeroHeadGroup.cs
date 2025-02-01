@@ -12,6 +12,8 @@ public class HeroHeadGroup : MonoBehaviour
     [SerializeField] private HistoryMove historyMove;
     [SerializeField] private PlayerHeroControl playerHeroControl;
 
+    public Box HeadBox => head.UnitMovement.CurrentBox;
+
     private void Awake()
     {
         if (instance == null)
@@ -33,6 +35,9 @@ public class HeroHeadGroup : MonoBehaviour
     }
 
 
+    private UnitDirection _willMoveDir;
+    private Box _willMoveBox;
+
     public void Move(UnitDirection dir)
     {
         var box = GridBoxesCollector.instance.GetBoxMoved(dir);
@@ -42,6 +47,8 @@ public class HeroHeadGroup : MonoBehaviour
             return;
         }
 
+        _willMoveDir = dir;
+        _willMoveBox = box;
         head.UnitCollisionDetect.MoveCondition(box, dir);
     }
 
@@ -49,8 +56,6 @@ public class HeroHeadGroup : MonoBehaviour
     {
         head.UnitMovement.Move(dir, box);
         historyMove.AddHistory(dir, box);
-        // CustomDebug.SetMessage($"Moved Hero {dir}", Color.green);
-
         // move other hero
         MoveOtherHeroes();
     }
@@ -136,15 +141,28 @@ public class HeroHeadGroup : MonoBehaviour
     public void OnEnemyDie(int exp)
     {
         head.UnitLevelProgression.ReceiveExp(exp);
+
+        if (_willMoveBox) // replace enemy box
+        {
+            MoveUnit(_willMoveBox, _willMoveDir);
+        }
     }
 
     public void OnHeroDie(UnitMain unitMain)
     {
         heroMovements.Remove(unitMain);
-        RearrangeHeroes();
-        if (unitMain == head)
+        if (heroMovements.IsEmptyCollection())
         {
-            head = heroMovements[0];
+            // Game Over
+        }
+        else
+        {
+            if (unitMain == head)
+            {
+                head = heroMovements[0];
+            }
+
+            RearrangeHeroes();
         }
     }
 }

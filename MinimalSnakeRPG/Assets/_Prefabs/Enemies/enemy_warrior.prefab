@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8438576950985566069}
   - component: {fileID: 1991018344443637920}
   - component: {fileID: 153500060415277251}
+  - component: {fileID: -4229512102151771679}
   m_Layer: 0
   m_Name: enemy_warrior
   m_TagString: Enemy
@@ -150,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62c59832798b934ea1db04c086f12ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _myTag: 
   myCollider: {fileID: 606113391372017453}
 --- !u!114 &1991018344443637920
 MonoBehaviour:
@@ -178,6 +180,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitStatus: {fileID: 1991018344443637920}
+--- !u!114 &-4229512102151771679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525623704202050480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5fb3b070c74bafbfa721758d4b9a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isMovable: 0
+  _unitMain: {fileID: 7850087879998228625}
 --- !u!1 &3854902111959032617
 GameObject:
   m_ObjectHideFlags: 0

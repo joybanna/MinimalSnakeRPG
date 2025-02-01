@@ -32,11 +32,12 @@ public class UnitCollisionDetect : MonoBehaviour
         var isAttackBox = box.IsAttackUnitThisBox(_unitType);
         if (isAttackBox)
         {
-            var isEnemy = SpawnController.instance.GetUnitDamaged(_unitType.OppositeUnitType(), box, out var enemy);
+            var isEnemy = UnitsCollector.instance.GetUnitDamaged(_unitType.OppositeUnitType(), box, out var enemy);
             if (isEnemy)
             {
                 var infoDamage = _myUnitMain.UnitStatus.OnUnitAttack();
                 enemy.OnUnitDamaged(infoDamage);
+                _myUnitMain.UnitMovement.SetRotation(dir);
                 CustomDebug.SetMessage($"Attack Enemy {enemy.name}", Color.red);
             }
             else
@@ -46,7 +47,14 @@ public class UnitCollisionDetect : MonoBehaviour
         }
         else
         {
-            HeroHeadGroup.instance.MoveUnit(box, dir);
+            if (_unitType == UnitType.Hero)
+            {
+                HeroHeadGroup.instance.MoveUnit(box, dir);
+            }
+            else
+            {
+                _myUnitMain.UnitMovement.Move(dir, box);
+            }
         }
     }
 

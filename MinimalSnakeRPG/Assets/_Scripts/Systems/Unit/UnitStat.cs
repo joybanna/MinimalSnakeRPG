@@ -28,6 +28,4 @@ public struct UnitStat
         attack = this.CalAtkOnLevel(level);
         defense = this.CalDefOnLevel(level);
     }
-    
-    
 }

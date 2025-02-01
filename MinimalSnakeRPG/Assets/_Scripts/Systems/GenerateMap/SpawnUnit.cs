@@ -26,6 +26,12 @@ public class SpawnUnit : MonoBehaviour
         }
     }
 
+    public void SpawnUnitRandomClass()
+    {
+        var classUnit = CalculateStats.RandomUnitClass();
+        SpawnUnitClass(classUnit);
+    }
+
     protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box)
     {
         var unit = Instantiate(prefab, box.transform.position, Quaternion.identity);
@@ -33,6 +39,13 @@ public class SpawnUnit : MonoBehaviour
         var info = new InfoInitUnit(unitType, dir, box, 1);
         unit.Init(info);
         if (parent) unit.transform.SetParent(parent);
+
+        if (unitType == UnitType.Enemy)
+        {
+            var enemyAutoMove = unit.GetComponent<EnemyAutoMove>();
+            enemyAutoMove.InitEnemy(CalculateSpawnMap.GetEnemyMoveable());
+        }
+
         return unit;
     }
 
@@ -40,23 +53,6 @@ public class SpawnUnit : MonoBehaviour
     {
         if (_units == null) return;
         _units.Clear();
-    }
-
-    public bool GetUnitOnMap(Box box, out UnitMain unit)
-    {
-        unit = null;
-        if (_units.IsEmptyCollection()) return false;
-        CustomDebug.SetMessage($"GetUnitOnMap {box.Grid}", Color.yellow);
-        for (var index = _units.Count - 1; index >= 0; index--)
-        {
-            var u = _units[index];
-            if (u == unit) continue;
-            if (!u.CurrentBox.Equals(box)) continue;
-            unit = u;
-            return true;
-        }
-
-        return false;
     }
 }
 

@@ -30,14 +30,13 @@ public class CrateGridBoxesEditor : UnityEditor.Editor
 {
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
         CrateGridBoxes script = (CrateGridBoxes)target;
 
         if (GUILayout.Button("Generate Boxes"))
         {
             script.GenerateBoxes();
         }
-
-        DrawDefaultInspector();
     }
 }
 #endif

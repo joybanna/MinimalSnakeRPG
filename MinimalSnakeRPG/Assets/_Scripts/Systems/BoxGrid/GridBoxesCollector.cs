@@ -29,61 +29,27 @@ public class GridBoxesCollector : MonoBehaviour
         gridBoxes.Add(box);
     }
 
-    private Dictionary<UnitDirection, Box> GetNeighbours(Box box)
-    {
-        var neighbours = new Dictionary<UnitDirection, Box>();
-        for (var index = gridBoxes.Count - 1; index >= 0; index--)
-        {
-            var gridBox = gridBoxes[index];
-            if (gridBox == box)
-            {
-                continue;
-            }
 
-            var isNeighbour = gridBox.IsNeighbour(box, out var direction);
-            if (!isNeighbour)
-            {
-                continue;
-            }
+    public Dictionary<UnitDirection, Box> GetNeighbours(Box box) =>
+        gridBoxes.GetNeighbours(box);
 
-            if (!gridBox.BoxIsMovable()) continue;
-
-            // CustomDebug.SetMessage("Neighbour : " + direction, Color.green);
-            neighbours.TryAdd(direction, gridBox);
-        }
-
-        return neighbours;
-    }
+    public Dictionary<UnitDirection, Box> GetNeighboursWithMoveable(Box box,
+        UnitType unitType, UnitDirection dir) => gridBoxes.GetNeighboursWithMoveable(box, unitType, dir);
 
     private Dictionary<UnitDirection, Box> _currentNeighbours;
 
     public void ShowMoveableArea(Box box, UnitDirection headDir)
     {
-        _currentNeighbours = GetNeighbours(box);
+        _currentNeighbours = gridBoxes.GetNeighboursWithMoveable(box, UnitType.Hero, headDir);
         // CustomDebug.SetMessage($"Neighbours : {_currentNeighbours.Count}", Color.yellow);
         if (_currentNeighbours == null) return;
-        _currentNeighbours = RemoveOppositeDirection(headDir);
+        // _currentNeighbours = _currentNeighbours.RemoveOppositeDirection(headDir);
         foreach (var neighbour in _currentNeighbours)
         {
             var isCrossDirection = headDir.IsOppositeDirection(neighbour.Key);
             if (isCrossDirection) continue;
             neighbour.Value.ShowMoveableArea(true);
         }
-    }
-
-    private Dictionary<UnitDirection, Box> RemoveOppositeDirection(UnitDirection headDir)
-    {
-        var tempNeighbours = new Dictionary<UnitDirection, Box>(_currentNeighbours);
-        foreach (var neighbour in _currentNeighbours)
-        {
-            var isCrossDirection = headDir.IsOppositeDirection(neighbour.Key);
-            if (isCrossDirection)
-            {
-                tempNeighbours.Remove(neighbour.Key);
-            }
-        }
-
-        return tempNeighbours;
     }
 
     public void HideMoveableArea()
@@ -113,10 +79,50 @@ public class GridBoxesCollector : MonoBehaviour
         return _currentNeighbours.ContainsKey(direction);
     }
 
+    [SerializeField] private Vector2 horizontalGridCap;
+    [SerializeField] private Vector2 verticalGridCap;
+
+    public void SetGridCap()
+    {
+        var hMin = 999f;
+        var hMax = -1f;
+
+        var vMin = 999f;
+        var vMax = -1f;
+
+        foreach (var box in gridBoxes)
+        {
+            if (box.Grid.x < hMin)
+            {
+                hMin = box.Grid.x;
+            }
+
+            if (box.Grid.x > hMax)
+            {
+                hMax = box.Grid.x;
+            }
+
+            if (box.Grid.y < vMin)
+            {
+                vMin = box.Grid.y;
+            }
+
+            if (box.Grid.y > vMax)
+            {
+                vMax = box.Grid.y;
+            }
+        }
+
+        horizontalGridCap = new Vector2(hMin, hMax);
+        verticalGridCap = new Vector2(vMin, vMax);
+    }
+
     public bool IsBorderBox(Box box)
     {
-        var sum = box.Grid.x + box.Grid.y;
-        return sum <= 1;
+        return Mathf.Approximately(box.Grid.x, horizontalGridCap.x) ||
+               Mathf.Approximately(box.Grid.x, horizontalGridCap.y) ||
+               Mathf.Approximately(box.Grid.y, verticalGridCap.x) ||
+               Mathf.Approximately(box.Grid.y, verticalGridCap.y);
     }
 }
 
@@ -138,6 +144,11 @@ public class GridBoxesCollectorEditor : UnityEditor.Editor
             {
                 box.BoxStatus = BoxStatus.Empty;
             }
+        }
+
+        if (GUILayout.Button("SetGridCap"))
+        {
+            _gridBoxesCollector.SetGridCap();
         }
     }
 }

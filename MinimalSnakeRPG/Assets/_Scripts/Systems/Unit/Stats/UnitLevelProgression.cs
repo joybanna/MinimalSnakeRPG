@@ -29,8 +29,8 @@ public class UnitLevelProgression : MonoBehaviour
     {
         _currentLevel++;
         unitStatus.OnUnitLevelUp(_currentLevel);
-        CustomDebug.SetMessage($"Unit Level Up {_currentLevel}", Color.green);
-        _nextLevelExp = this.CalculateExp();
+        _nextLevelExp = this.NextLevelExp();
+        CustomDebug.SetMessage($"Unit Level Up {_currentLevel} : {_exp} / {_nextLevelExp} to next level", Color.green);
         _onUnitLevelUp?.Invoke(_currentLevel);
     }
 

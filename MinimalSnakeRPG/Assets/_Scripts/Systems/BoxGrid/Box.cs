@@ -76,22 +76,37 @@ public class Box : MonoBehaviour, IEquatable<Box>
         }
     }
 
-    public bool BoxIsMovable()
+    public bool BoxIsMovable(UnitType unitType)
     {
-        return BoxStatus switch
+        if (unitType == UnitType.Hero)
         {
-            BoxStatus.Empty => true,
-            BoxStatus.Collectible => true,
-            BoxStatus.Enemy => true,
-            BoxStatus.Obstacle => true,
-            BoxStatus.Hero => true,
-            _ => false
-        };
+            return BoxStatus switch
+            {
+                BoxStatus.Empty => true,
+                BoxStatus.Collectible => true,
+                BoxStatus.Enemy => true,
+                BoxStatus.Obstacle => true,
+                BoxStatus.Hero => true,
+                _ => false
+            };
+        }
+        else
+        {
+            return BoxStatus switch
+            {
+                BoxStatus.Empty => true,
+                BoxStatus.Collectible => false,
+                BoxStatus.Enemy => false,
+                BoxStatus.Obstacle => false,
+                BoxStatus.Hero => true,
+                _ => false
+            };
+        }
     }
 
     public bool IsBorderBox()
     {
-        return false;
+        return GridBoxesCollector.instance.IsBorderBox(this);
     }
 
     public bool Equals(Box other)

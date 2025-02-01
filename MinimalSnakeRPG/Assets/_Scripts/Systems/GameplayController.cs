@@ -6,7 +6,7 @@ public class GameplayController : MonoBehaviour
     public static GameplayController instance;
 
     [SerializeField] private HeroHeadGroup headGroup;
-    
+
 
     private void Awake()
     {
@@ -18,5 +18,10 @@ public class GameplayController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void OnEnemiesWaveDie()
+    {
+        SpawnController.instance.NextWave();
     }
 }

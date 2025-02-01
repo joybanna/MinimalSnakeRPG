@@ -37,7 +37,7 @@ public class UnitMovement : MonoBehaviour
         direction = dir;
         _previousDirection = dir;
         this.transform.position = box.transform.position;
-        SetRotation();
+        SetRotation(direction);
         SetBoxStatus(box);
     }
 
@@ -46,7 +46,7 @@ public class UnitMovement : MonoBehaviour
         _previousDirection = direction;
         direction = dir;
         this.transform.position = box.transform.position;
-        SetRotation();
+        SetRotation(direction);
         SetBoxStatus(box);
     }
 
@@ -61,9 +61,9 @@ public class UnitMovement : MonoBehaviour
         _currentBox.BoxStatus = _unitType == UnitType.Hero ? BoxStatus.Hero : BoxStatus.Enemy;
     }
 
-    private void SetRotation()
+    public void SetRotation(UnitDirection dir)
     {
-        var zEulerAngle = GetZEulerAngle(direction);
+        var zEulerAngle = GetZEulerAngle(dir);
         this.transform.rotation = Quaternion.Euler(0, 0, zEulerAngle);
     }
 
