@@ -86,6 +86,11 @@ public class SpawnController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    public void SpawnStarter(UnitClass uClass, int level)
+    {
+        spawnStarterUnit.SpawnUnitClass(uClass, level);
+    }
 }
 
 #if UNITY_EDITOR

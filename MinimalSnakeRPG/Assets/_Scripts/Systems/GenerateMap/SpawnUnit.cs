@@ -10,7 +10,7 @@ public class SpawnUnit : MonoBehaviour
 
     [SerializeField] protected Transform parent;
 
-    public void SpawnUnitClass(UnitClass unitClass)
+    public void SpawnUnitClass(UnitClass unitClass,int level = 1)
     {
         var isBox = spawnController.GetSpawnBox(out var spawnBox);
         if (!isBox)
@@ -32,11 +32,11 @@ public class SpawnUnit : MonoBehaviour
         SpawnUnitClass(classUnit);
     }
 
-    protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box)
+    protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box,int level = 1)
     {
         var unit = Instantiate(prefab, box.transform.position, Quaternion.identity);
         var dir = ExtensionSystems.GetRandomDirection();
-        var info = new InfoInitUnit(unitType, dir, box, 1);
+        var info = new InfoInitUnit(unitType, dir, box, level);
         unit.Init(info);
         if (parent) unit.transform.SetParent(parent);
 

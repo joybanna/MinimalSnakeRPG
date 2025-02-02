@@ -15,7 +15,7 @@ public struct UnitStat
     public int attack;
     public int defense;
 
-    public UnitStat( int hp, int attack, int defense)
+    public UnitStat(int hp, int attack, int defense)
     {
         this.hp = hp;
         this.attack = attack;
@@ -27,5 +27,20 @@ public struct UnitStat
         hp = this.CalHpOnLevel(level);
         attack = this.CalAtkOnLevel(level);
         defense = this.CalDefOnLevel(level);
+    }
+
+    public int GetStatValue(StatType statType)
+    {
+        switch (statType)
+        {
+            case StatType.Attack:
+                return attack;
+            case StatType.Defense:
+                return defense;
+            case StatType.Health:
+                return hp;
+            default:
+                return 0;
+        }
     }
 }

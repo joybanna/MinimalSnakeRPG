@@ -59,4 +59,11 @@ public static class CalculateStats
         var index = UnityEngine.Random.Range(0, _unitClasses.Length);
         return _unitClasses[index];
     }
+
+    public static UnitStat GetUnitStats(this UnitClass uClass, int level)
+    {
+        var baseStats = LoadDataUnitClassStats.Instance.GetBaseStats(uClass);
+        baseStats.SetStatCurrentLevel(level);
+        return baseStats;
+    }
 }

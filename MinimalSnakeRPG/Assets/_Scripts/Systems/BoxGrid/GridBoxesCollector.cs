@@ -29,6 +29,12 @@ public class GridBoxesCollector : MonoBehaviour
         gridBoxes.Add(box);
     }
 
+    public void RemoveGridBoxes()
+    {
+        gridBoxes ??= new List<Box>();
+        gridBoxes.Clear();
+    }
+
 
     public Dictionary<UnitDirection, Box> GetNeighbours(Box box) =>
         gridBoxes.GetNeighbours(box);

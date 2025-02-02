@@ -6,16 +6,18 @@ public class CrateGridBoxes : MonoBehaviour
     [SerializeField] private int mapWidth = 16;
     [SerializeField] private int mapHeight = 16;
     [SerializeField] private float spacing = 1.1f;
+    [SerializeField] Vector2 sizeBox = new Vector2(1.0f, 1.0f);
 
     [SerializeField] private GridBoxesCollector gridBoxesCollector;
 
     public void GenerateBoxes()
     {
+        gridBoxesCollector.RemoveGridBoxes();
         for (int x = 0; x < mapWidth; x++)
         {
             for (int z = 0; z < mapHeight; z++)
             {
-                Vector3 pos = new Vector3(x * spacing, z * spacing);
+                var pos = new Vector3(x * sizeBox.x * spacing, z * sizeBox.y * spacing);
                 var box = Instantiate(boxPrefab, pos, Quaternion.identity, this.transform);
                 box.InitBox(x, z);
                 gridBoxesCollector.AddGridBox(box);

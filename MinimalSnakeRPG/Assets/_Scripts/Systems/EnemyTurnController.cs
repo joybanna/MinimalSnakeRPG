@@ -21,8 +21,16 @@ public class EnemyTurnController : MonoBehaviour
 
     public void OnEnemyTurnStart()
     {
-        // CustomDebug.SetMessage("Enemy Turn Start", Color.yellow);
-        StartCoroutine(DelayedEnemyTurnEnd());
+        if (_enemies.IsEmptyCollection())
+        {
+            CustomDebug.SetMessage("No Enemy", Color.red);
+            // GameplayController.instance.OnEnemiesWaveDie();
+        }
+        else
+        {
+            // CustomDebug.SetMessage("Enemy Turn Start", Color.yellow);
+            StartCoroutine(DelayedEnemyTurnEnd());
+        }
     }
 
     public void OnEnemyTurnEnd()
@@ -41,11 +49,14 @@ public class EnemyTurnController : MonoBehaviour
 
     IEnumerator DelayedEnemyTurnEnd()
     {
-        foreach (var enemy in _enemies)
+        for (var index = _enemies.Count - 1; index >= 0; index--)
         {
+            var enemy = _enemies[index];
+            if (enemy == null || !enemy.IsMovable) continue;
             yield return new WaitForSeconds(0.5f);
             enemy.MoveEnemy();
         }
+
         yield return new WaitForSeconds(0.5f);
         OnEnemyTurnEnd();
     }

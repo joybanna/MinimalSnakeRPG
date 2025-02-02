@@ -68,5 +68,6 @@ public class UnitMain : MonoBehaviour
         }
 
         UnitsCollector.instance.OnUnitExit(unitType, this);
+        Destroy(gameObject);
     }
 }

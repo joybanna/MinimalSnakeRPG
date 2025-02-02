@@ -8,6 +8,7 @@ public class EnemyAutoMove : MonoBehaviour
 
     private Box _currentBox => _unitMain ? _unitMain.CurrentBox : null;
     private UnitDirection _currentDirection => _unitMain ? _unitMain.UnitMovement.CurrentDirection : UnitDirection.None;
+    public bool IsMovable => _isMovable;
 
     public void InitEnemy(bool isMovable)
     {
