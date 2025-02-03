@@ -38,7 +38,8 @@ public class UnitCollisionDetect : MonoBehaviour
                 var infoDamage = _myUnitMain.UnitStatus.OnUnitAttack();
                 enemy.OnUnitDamaged(infoDamage);
                 _myUnitMain.UnitMovement.SetRotation(dir);
-                // CustomDebug.SetMessage($"Attack Enemy {enemy.name}", Color.yellow);
+                _myUnitMain.OnAttack();
+                SoundController.instance.PlaySFX(SoundSource.Attack);
             }
             else
             {
@@ -74,9 +75,11 @@ public class UnitCollisionDetect : MonoBehaviour
                 break;
             case UnitDoSomething.Recruit:
                 RecruitHero(other);
+                SoundController.instance.PlaySFX(SoundSource.Collect);
                 break;
             case UnitDoSomething.Collect:
-                CustomDebug.SetMessage("Collect", Color.yellow);
+                CollectItem(other);
+                SoundController.instance.PlaySFX(SoundSource.Collect);
                 break;
             case UnitDoSomething.Obstacle:
                 CustomDebug.SetMessage("Obstacle", Color.yellow);
@@ -96,7 +99,7 @@ public class UnitCollisionDetect : MonoBehaviour
         {
             return _myTag == "Hero" ? UnitDoSomething.Recruit : UnitDoSomething.None;
         }
-        else if (other.CompareTag("Collectable"))
+        else if (other.CompareTag("Collectible"))
         {
             return UnitDoSomething.Collect;
         }
@@ -122,6 +125,15 @@ public class UnitCollisionDetect : MonoBehaviour
     {
         var unitMain = other.GetComponent<UnitMain>();
         if (unitMain) HeroHeadGroup.instance.RecruitHero(unitMain);
+    }
+
+    private void CollectItem(Collider2D other)
+    {
+        var collectible = other.GetComponent<Collectible>();
+        if (collectible)
+        {
+            collectible.OnCollectItem();
+        }
     }
 
 

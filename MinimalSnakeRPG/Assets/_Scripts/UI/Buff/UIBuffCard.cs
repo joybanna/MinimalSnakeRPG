@@ -8,14 +8,20 @@ public class UIBuffCard : MonoBehaviour
     [SerializeField] private TMP_Text turnCountText;
     [SerializeField] private RectTransform buffTurnCount;
     [SerializeField] private BuffRunner buffRunner;
-
+    [SerializeField] private Sprite atkIcon;
+    [SerializeField] private Sprite defIcon;
     private UIBuffGroup _buffGroup;
 
     public void InitCard(UIBuffGroup buffGroup, BuffRunner buff)
     {
         _buffGroup = buffGroup;
         this.buffRunner = buff;
-        // icon.sprite = buffRunner.BuffIcon;
+        icon.sprite = buffRunner.Buff switch
+        {
+            Buff.Damage => atkIcon,
+            Buff.Defense => defIcon,
+            _ => null
+        };
         turnCountText.text = buffRunner.TurnCount.ToString();
         buffRunner.onBuffTurnCountChange = OnTurnChange;
         buffRunner.onBuffRemove = OnRemoveBuff;

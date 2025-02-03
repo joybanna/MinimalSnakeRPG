@@ -21,6 +21,7 @@
     public override void OnUnitDie()
     {
         HeroHeadGroup.instance.OnHeroDie(this);
+        UIGameplayController.instance.PlayerUnits.RemoveCardPlayerUnit(this);
         base.OnUnitDie();
     }
 }

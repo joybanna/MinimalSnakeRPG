@@ -21,6 +21,7 @@ public class UICardSelectHero : MonoBehaviour
 
     public void OnSelectCard()
     {
+        SoundController.instance.PlaySFX(SoundSource.UIClick);
         SpawnController.instance.SpawnStarter(_infoUnitClass.unitClass, 1);
         _main.OnSelectedCard();
     }

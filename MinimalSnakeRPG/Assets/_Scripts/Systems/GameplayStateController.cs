@@ -38,6 +38,7 @@ public class GameplayStateController : MonoBehaviour
     public void OnPlayerTurnEnd()
     {
         CurrentState = GameplayState.EnemyTurn;
+        UIGameplayController.instance.EnemyTurn.OpenPanel();
         GridBoxesCollector.instance.HideMoveableArea();
         EnemyTurnController.instance.OnEnemyTurnStart();
     }
@@ -49,6 +50,7 @@ public class GameplayStateController : MonoBehaviour
         TurnCount++;
         BuffCollector.instance.OnTurnChange();
         UIGameplayController.instance.MainController.SetTurnCountText(TurnCount);
+        UIGameplayController.instance.EnemyTurn.ClosePanel();
     }
 
     public void OnGameStart()
@@ -62,6 +64,6 @@ public class GameplayStateController : MonoBehaviour
     public void OnGameEnd()
     {
         CurrentState = GameplayState.NullState;
-        // Debug.Log("Game End");
+        UIGameplayController.instance.OpenGameOver();
     }
 }

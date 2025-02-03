@@ -20,7 +20,7 @@ public class SpawnUnit : MonoBehaviour
         else
         {
             var prefab = LoadDataPrefabsSpawnable.Instance.GetPrefabUnit(unitType, unitClass);
-            var hero = SpawnUnitMain(prefab, spawnBox);
+            var hero = SpawnUnitMain(prefab, spawnBox, level);
             _units ??= new List<UnitMain>();
             _units.Add(hero);
         }

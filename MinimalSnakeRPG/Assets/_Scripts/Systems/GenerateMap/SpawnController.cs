@@ -11,6 +11,7 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private SpawnUnit spawnHero;
     [SerializeField] private SpawnUnit spawnEnemy;
     [SerializeField] private SpawnStarterUnit spawnStarterUnit;
+    [SerializeField] private SpawnCollectible spawnCollectible;
 
     private void Awake()
     {
@@ -75,6 +76,7 @@ public class SpawnController : MonoBehaviour
     {
         yield return SpawnUnits(UnitType.Enemy);
         yield return SpawnUnits(UnitType.Hero);
+        yield return SpawnCollectibles();
     }
 
     private IEnumerator SpawnUnits(UnitType unitType)
@@ -85,6 +87,17 @@ public class SpawnController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             selected.SpawnUnitRandomClass();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private IEnumerator SpawnCollectibles()
+    {
+        var count = CalculateSpawnMap.GetCollectibleSpawn(wave);
+        if (count == 0) yield break;
+        for (int i = 0; i < count; i++)
+        {
+            spawnCollectible.RandomSpawnCollectibleItem();
             yield return new WaitForSeconds(0.1f);
         }
     }

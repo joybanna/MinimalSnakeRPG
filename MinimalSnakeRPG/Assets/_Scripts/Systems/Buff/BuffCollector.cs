@@ -37,6 +37,7 @@ public class BuffCollector : MonoBehaviour
     public void RemoveBuff(BuffRunner buffRunner)
     {
         buffs.Remove(buffRunner);
+        HeroHeadGroup.instance.UpdateBonusStat();
     }
 
     public UnitStat GetBuffBonus()

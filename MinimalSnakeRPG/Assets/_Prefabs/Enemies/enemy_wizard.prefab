@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 1248287948971550282}
   - component: {fileID: 1277131485542362686}
   - component: {fileID: 6466764624844755833}
+  - component: {fileID: 5877529439558253777}
   m_Layer: 0
   m_Name: enemy_wizard
   m_TagString: Enemy
@@ -224,6 +225,7 @@ MonoBehaviour:
   unitStatus: {fileID: 1248287948971550282}
   unitLevelProgression: {fileID: 1277131485542362686}
   hpBar: {fileID: 4778787827552605873}
+  abilityBase: {fileID: 5877529439558253777}
 --- !u!114 &6233857053517360712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +303,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isMovable: 0
+--- !u!114 &5877529439558253777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458524507887218726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540447069f73458eac0441c747dcf996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5230896195574887630
 GameObject:
   m_ObjectHideFlags: 0

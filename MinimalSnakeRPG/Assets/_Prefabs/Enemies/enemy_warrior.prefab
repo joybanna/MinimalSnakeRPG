@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1991018344443637920}
   - component: {fileID: 153500060415277251}
   - component: {fileID: -4229512102151771679}
+  - component: {fileID: 863573202855510834}
   m_Layer: 0
   m_Name: enemy_warrior
   m_TagString: Enemy
@@ -122,6 +123,7 @@ MonoBehaviour:
   unitStatus: {fileID: 1991018344443637920}
   unitLevelProgression: {fileID: 153500060415277251}
   hpBar: {fileID: 8329819694797386643}
+  abilityBase: {fileID: 863573202855510834}
 --- !u!114 &5947460331417925083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isMovable: 0
+--- !u!114 &863573202855510834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525623704202050480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233c966eb4e0436eaa89a763c4723774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3854902111959032617
 GameObject:
   m_ObjectHideFlags: 0

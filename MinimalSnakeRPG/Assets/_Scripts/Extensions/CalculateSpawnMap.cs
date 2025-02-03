@@ -40,4 +40,15 @@ public static class CalculateSpawnMap
     {
         return UnityEngine.Random.Range(0, 100) < 100;
     }
+
+    public static int GetCollectibleSpawn(int wave)
+    {
+        var mod = wave % 5;
+        return mod switch
+        {
+            0 => 1,
+            3 => 2,
+            _ => 1
+        };
+    }
 }

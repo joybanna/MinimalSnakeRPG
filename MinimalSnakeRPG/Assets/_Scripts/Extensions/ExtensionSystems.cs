@@ -55,4 +55,15 @@ public static class ExtensionSystems
         return unitType == UnitType.Hero ? UnitType.Enemy : UnitType.Hero;
     }
     
+    public static bool IsCollectibleThisBox(this Box box, UnitType unitType)
+    {
+        if (unitType == UnitType.Hero)
+        {
+            if (box.BoxStatus == BoxStatus.Collectible)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

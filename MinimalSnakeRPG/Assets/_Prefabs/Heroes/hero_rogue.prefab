@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1134024481521987396}
   - component: {fileID: 7944235360636283372}
   - component: {fileID: 3741683297330472148}
+  - component: {fileID: 2261772090827695331}
   m_Layer: 0
   m_Name: hero_rogue
   m_TagString: Hero
@@ -208,6 +209,7 @@ MonoBehaviour:
   unitStatus: {fileID: 7944235360636283372}
   unitLevelProgression: {fileID: 3741683297330472148}
   hpBar: {fileID: 278317028050036988}
+  abilityBase: {fileID: 2261772090827695331}
 --- !u!114 &3748457484542292649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +272,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d99b7e111414820a13b35fe8a29d3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2261772090827695331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959271737800211425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aef5fe41e0a42ea97799b5520ed737d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6401764977638253098

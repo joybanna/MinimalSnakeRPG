@@ -8,13 +8,14 @@ public class UnitMain : MonoBehaviour
     [SerializeField] protected UnitStatus unitStatus;
     [SerializeField] protected UnitLevelProgression unitLevelProgression;
     [SerializeField] protected HpBar hpBar;
-
+    [SerializeField] protected AbilityBase abilityBase;
     public UnitMovement UnitMovement => unitMovement;
     public UnitCollisionDetect UnitCollisionDetect => unitCollisionDetect;
     public UnitStatus UnitStatus => unitStatus;
     public UnitLevelProgression UnitLevelProgression => unitLevelProgression;
     public HpBar HpBar => hpBar;
     public Box CurrentBox => unitMovement.CurrentBox;
+    public UnitType UnitType => unitType;
 
     public void Init(InfoInitUnit infoInitUnit)
     {
@@ -24,6 +25,7 @@ public class UnitMain : MonoBehaviour
         unitStatus.Init(this, infoInitUnit);
         unitLevelProgression.Init(infoInitUnit);
         unitLevelProgression.AssignOnUnitLevelUp(OnUnitLevelUp);
+        abilityBase.InitAbility(this);
         UnitsCollector.instance.OnUnitEntry(unitType, this);
     }
 
@@ -37,6 +39,7 @@ public class UnitMain : MonoBehaviour
     protected virtual void OnUnitLevelUp(int level)
     {
         unitStatus.OnUnitLevelUp(level);
+        SoundController.instance.PlaySFX(SoundSource.LevelUp);
     }
 
     public virtual void OnUnitDamaged(InfoDamage infoDamage)
@@ -53,6 +56,17 @@ public class UnitMain : MonoBehaviour
     {
         CustomDebug.SetMessage($"{unitType} is dead");
         UnitsCollector.instance.OnUnitExit(unitType, this);
+        SoundController.instance.PlaySFX(SoundSource.Die);
         Destroy(gameObject);
+    }
+
+    public void OnTurnEnd()
+    {
+        abilityBase.OnTurnEnd();
+    }
+
+    public void OnAttack()
+    {
+        abilityBase.OnAttack();
     }
 }

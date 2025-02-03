@@ -16,7 +16,6 @@ public class PlayerHeroControl : MonoBehaviour
         {
             // CustomDebug.SetMessage($"Move {dir}", Color.green);
             headGroup.Move(dir);
-            GameplayStateController.instance.OnPlayerTurnEnd();
             this.enabled = false;
         }
         else

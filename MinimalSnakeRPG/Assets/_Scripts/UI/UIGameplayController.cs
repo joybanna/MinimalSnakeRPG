@@ -9,10 +9,13 @@ public class UIGameplayController : MonoBehaviour
     [SerializeField] private UISelectStartHero selectStartHero;
     [SerializeField] private UIPlayerUnits playerUnits;
     [SerializeField] private UIBuffGroup buffGroup;
+    [SerializeField] private UIEnemyTurn enemyTurn;
+    [SerializeField] private UIGameOver gameOver;
 
     public UIMainController MainController => mainController;
     public UIPlayerUnits PlayerUnits => playerUnits;
     public UIBuffGroup BuffGroup => buffGroup;
+    public UIEnemyTurn EnemyTurn => enemyTurn;
 
     private void Awake()
     {
@@ -35,5 +38,10 @@ public class UIGameplayController : MonoBehaviour
     public void OpenSelectStartHero()
     {
         selectStartHero.OpenPanel();
+    }
+
+    public void OpenGameOver()
+    {
+        gameOver.OpenPanel();
     }
 }

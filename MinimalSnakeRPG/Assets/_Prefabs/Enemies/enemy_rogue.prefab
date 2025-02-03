@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7944235360636283372}
   - component: {fileID: 3741683297330472148}
   - component: {fileID: -1764128995632708021}
+  - component: {fileID: 2204906228827855770}
   m_Layer: 0
   m_Name: enemy_rogue
   m_TagString: Enemy
@@ -122,6 +123,7 @@ MonoBehaviour:
   unitStatus: {fileID: 7944235360636283372}
   unitLevelProgression: {fileID: 3741683297330472148}
   hpBar: {fileID: 4507971140680436746}
+  abilityBase: {fileID: 2204906228827855770}
 --- !u!114 &3748457484542292649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isMovable: 0
+--- !u!114 &2204906228827855770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959271737800211425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aef5fe41e0a42ea97799b5520ed737d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5103065852221298543
 GameObject:
   m_ObjectHideFlags: 0

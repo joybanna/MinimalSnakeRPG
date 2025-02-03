@@ -50,4 +50,9 @@ public class BuffRunner : IEquatable<BuffRunner>
     {
         return HashCode.Combine((int)buff, value);
     }
+
+    public void ApplyBuff()
+    {
+        BuffCollector.instance.AddBuff(this);
+    }
 }

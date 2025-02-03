@@ -337,6 +337,8 @@ MonoBehaviour:
     buff: 0
     value: 0
     turnCount: 0
+  atkIcon: {fileID: 21300000, guid: 13ae2f6bf135fd145810e0baf7e5b4a0, type: 3}
+  defIcon: {fileID: 21300000, guid: 6682fb65a8c41f34f951c35cfea495ad, type: 3}
 --- !u!1 &7421164130356507792
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,14 +11,21 @@ public enum CollectibleType
 public class Collectible : MonoBehaviour
 {
     [SerializeField] protected CollectibleType collectibleType;
-    public CollectibleType CollectibleType => collectibleType;
+    private SpawnCollectible _spawner;
+
+    public void InitCollectible(SpawnCollectible spawner, CollectibleType type, Box box)
+    {
+        _spawner = spawner;
+        collectibleType = type;
+        box.BoxStatus = BoxStatus.Collectible;
+    }
 
     public void OnCollectItem()
     {
-        // remove collectible from map
-        // play sound
-        // remove collectible from collector
+        CustomDebug.SetMessage($"Collect - {collectibleType}", Color.green);
+        _spawner.RemoveCollectible(this);
         SentToInventory();
+        Destroy(this.gameObject);
     }
 
     private void SentToInventory()

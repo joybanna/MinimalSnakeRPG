@@ -11,7 +11,6 @@ public class HeroHeadGroup : MonoBehaviour
     [SerializeField] private UnitMain head;
     [SerializeField] private HistoryMove historyMove;
     [SerializeField] private PlayerHeroControl playerHeroControl;
-    private Dictionary<UnitMain, UICardPlayerUnit> _playerUnits;
 
     public Box HeadBox => head.UnitMovement.CurrentBox;
 
@@ -31,14 +30,16 @@ public class HeroHeadGroup : MonoBehaviour
     {
         head = leader;
         heroMovements ??= new List<UnitMain>();
-        _playerUnits ??= new Dictionary<UnitMain, UICardPlayerUnit>();
         heroMovements.Add(head);
         historyMove.InitHistory(infoInitUnit.box, infoInitUnit.direction);
-
-        var card = UIGameplayController.instance.PlayerUnits.InitHeadHero(head);
-        _playerUnits.Add(head, card);
+        UIGameplayController.instance.PlayerUnits.InitHeadHero(head);
     }
 
+    public void HealHeadHero(int heal)
+    {
+        head.OnUnitHealed(heal);
+        UpdatePlayerUnit(head);
+    }
 
     private UnitDirection _willMoveDir;
     private Box _willMoveBox;
@@ -55,6 +56,8 @@ public class HeroHeadGroup : MonoBehaviour
         _willMoveDir = dir;
         _willMoveBox = box;
         head.UnitCollisionDetect.MoveCondition(box, dir);
+
+        head.OnTurnEnd();
     }
 
     public void MoveUnit(Box box, UnitDirection dir)
@@ -63,6 +66,8 @@ public class HeroHeadGroup : MonoBehaviour
         historyMove.AddHistory(dir, box);
         // move other hero
         MoveOtherHeroes();
+
+        SoundController.instance.PlaySFX(SoundSource.Move);
     }
 
     private void MoveOtherHeroes()
@@ -86,8 +91,7 @@ public class HeroHeadGroup : MonoBehaviour
         unitMain.UnitMovement.Move(head.UnitMovement.CurrentDirection, box);
         heroMovements.Add(unitMain);
 
-        var card = UIGameplayController.instance.PlayerUnits.RecruitedHero(unitMain);
-        _playerUnits.Add(unitMain, card);
+        UIGameplayController.instance.PlayerUnits.RecruitedHero(unitMain);
     }
 
     public void OnPlayerTurnStart()
@@ -120,7 +124,9 @@ public class HeroHeadGroup : MonoBehaviour
         RearrangeHeroes();
         head = heroMovements[0];
         CustomDebug.SetMessage("Swap Head to Last Hero", Color.green);
+        UIGameplayController.instance.PlayerUnits.SwapFirstToLast();
         GameplayStateController.instance.OnPlayerTurnEnd();
+        SoundController.instance.PlaySFX(SoundSource.UIClick);
     }
 
     public void SwapLastHeroToHead()
@@ -132,7 +138,9 @@ public class HeroHeadGroup : MonoBehaviour
         RearrangeHeroes();
         head = heroMovements[0];
         CustomDebug.SetMessage("Swap Last Hero to Head", Color.green);
+        UIGameplayController.instance.PlayerUnits.SwapLastToFirst();
         GameplayStateController.instance.OnPlayerTurnEnd();
+        SoundController.instance.PlaySFX(SoundSource.UIClick);
     }
 
     public void RearrangeHeroes()
@@ -164,6 +172,8 @@ public class HeroHeadGroup : MonoBehaviour
         {
             // Game Over
             CustomDebug.SetMessage("#### Game Over", Color.red);
+            GameplayStateController.instance.OnGameEnd();
+            SoundController.instance.PlaySFX(SoundSource.GameOver);
         }
         else
         {
@@ -178,21 +188,7 @@ public class HeroHeadGroup : MonoBehaviour
 
     public void UpdatePlayerUnit(UnitMain unitMain) // buff , level up
     {
-        if (unitMain != null)
-        {
-            var isCon = _playerUnits.TryGetValue(unitMain, out var card);
-            if (isCon)
-            {
-                card.UpdateCard(unitMain);
-            }
-        }
-        else
-        {
-            foreach (var unit in _playerUnits)
-            {
-                unit.Value.UpdateCard(unit.Key);
-            }
-        }
+        UIGameplayController.instance.PlayerUnits.UpdatePlayerUnit(unitMain);
     }
 
     public void UpdateBonusStat()

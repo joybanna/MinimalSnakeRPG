@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2753119337354114035}
   - component: {fileID: 1248287948971550282}
   - component: {fileID: 1277131485542362686}
+  - component: {fileID: 5419789760790207621}
   m_Layer: 0
   m_Name: hero_wizard
   m_TagString: Hero
@@ -223,6 +224,7 @@ MonoBehaviour:
   unitStatus: {fileID: 1248287948971550282}
   unitLevelProgression: {fileID: 1277131485542362686}
   hpBar: {fileID: 156664015054786811}
+  abilityBase: {fileID: 5419789760790207621}
 --- !u!114 &6233857053517360712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +287,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d99b7e111414820a13b35fe8a29d3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5419789760790207621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458524507887218726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540447069f73458eac0441c747dcf996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4959805189172533822

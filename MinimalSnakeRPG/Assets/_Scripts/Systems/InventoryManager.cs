@@ -65,6 +65,12 @@ public class InventoryManager : Singleton<InventoryManager>
             item.UnRegisterOnCountChanged(action);
         }
     }
+
+    public int GetCount(CollectibleType collectibleType)
+    {
+        var isItem = _inventory.TryGetValue(collectibleType, out var item);
+        return isItem ? item.Count : 0;
+    }
 }
 
 public class ModuleItem
