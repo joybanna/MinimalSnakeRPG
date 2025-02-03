@@ -59,12 +59,14 @@ public class SpawnController : MonoBehaviour
     public void SpawnWave()
     {
         StartCoroutine(ChainSpawnUnits());
+        UIGameplayController.instance.MainController.SetEnemyWaveText(wave);
     }
 
 
     public void NextWave()
     {
         wave++;
+        UIGameplayController.instance.MainController.SetEnemyWaveText(wave);
         CustomDebug.SetMessage("NextWave: " + wave, Color.green);
         SpawnWave();
     }

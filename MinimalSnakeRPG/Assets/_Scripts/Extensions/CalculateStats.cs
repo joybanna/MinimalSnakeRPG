@@ -5,17 +5,20 @@ public static class CalculateStats
 {
     public static int CalAtkOnLevel(this UnitStat stat, int level)
     {
-        return stat.attack + level;
+        var defaultAtk = stat.attack - (level - 1);
+        return defaultAtk + level;
     }
 
     public static int CalDefOnLevel(this UnitStat stat, int level)
     {
-        return stat.defense + level;
+        var defaultDef = stat.defense - (level - 1);
+        return defaultDef + level;
     }
 
     public static int CalHpOnLevel(this UnitStat stat, int level)
     {
-        return stat.hp + level;
+        var defaultHp = stat.hp - (level - 1);
+        return defaultHp + level;
     }
 
     public static int CalDamage(this UnitStat stat, UnitStat bonus)
@@ -52,12 +55,12 @@ public static class CalculateStats
         }
     }
 
-    private static UnitClass[] _unitClasses = { UnitClass.Warrior, UnitClass.Rogue, UnitClass.Wizard };
+    private static readonly UnitClass[] UNIT_CLASSES = { UnitClass.Warrior, UnitClass.Rogue, UnitClass.Wizard };
 
     public static UnitClass RandomUnitClass()
     {
-        var index = UnityEngine.Random.Range(0, _unitClasses.Length);
-        return _unitClasses[index];
+        var index = UnityEngine.Random.Range(0, UNIT_CLASSES.Length);
+        return UNIT_CLASSES[index];
     }
 
     public static UnitStat GetUnitStats(this UnitClass uClass, int level)

@@ -17,6 +17,8 @@ public class GameplayStateController : MonoBehaviour
     [SerializeField] private PlayerHeroControl playerHeroControl;
 
 
+    public int TurnCount { get; private set; }
+
     private void Awake()
     {
         if (instance == null)
@@ -29,8 +31,9 @@ public class GameplayStateController : MonoBehaviour
         }
 
         CurrentState = GameplayState.PlayerTurn;
+        TurnCount = 0;
     }
-    
+
 
     public void OnPlayerTurnEnd()
     {
@@ -43,14 +46,17 @@ public class GameplayStateController : MonoBehaviour
     {
         CurrentState = GameplayState.PlayerTurn;
         headGroup.OnPlayerTurnStart();
-        // Debug.Log("to Player Turn");
+        TurnCount++;
+        BuffCollector.instance.OnTurnChange();
+        UIGameplayController.instance.MainController.SetTurnCountText(TurnCount);
     }
 
     public void OnGameStart()
     {
         CurrentState = GameplayState.PlayerTurn;
         headGroup.OnPlayerTurnStart();
-        // Debug.Log("Game Start");
+        TurnCount = 1;
+        UIGameplayController.instance.MainController.SetTurnCountText(TurnCount);
     }
 
     public void OnGameEnd()

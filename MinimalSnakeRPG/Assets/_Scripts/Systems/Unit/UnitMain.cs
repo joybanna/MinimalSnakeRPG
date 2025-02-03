@@ -2,12 +2,12 @@
 
 public class UnitMain : MonoBehaviour
 {
-    [SerializeField] private UnitType unitType = UnitType.Hero;
-    [SerializeField] private UnitMovement unitMovement;
-    [SerializeField] private UnitCollisionDetect unitCollisionDetect;
-    [SerializeField] private UnitStatus unitStatus;
-    [SerializeField] private UnitLevelProgression unitLevelProgression;
-    [SerializeField] private HpBar hpBar;
+    [SerializeField] protected UnitType unitType = UnitType.Hero;
+    [SerializeField] protected UnitMovement unitMovement;
+    [SerializeField] protected UnitCollisionDetect unitCollisionDetect;
+    [SerializeField] protected UnitStatus unitStatus;
+    [SerializeField] protected UnitLevelProgression unitLevelProgression;
+    [SerializeField] protected HpBar hpBar;
 
     public UnitMovement UnitMovement => unitMovement;
     public UnitCollisionDetect UnitCollisionDetect => unitCollisionDetect;
@@ -19,13 +19,11 @@ public class UnitMain : MonoBehaviour
     public void Init(InfoInitUnit infoInitUnit)
     {
         unitType = infoInitUnit.unitType;
-        unitMovement.Init(infoInitUnit.unitType, infoInitUnit.direction, infoInitUnit.box);
+        unitMovement.Init(infoInitUnit);
         unitCollisionDetect.Init(this, infoInitUnit.unitType);
-        unitLevelProgression.Init(infoInitUnit.unitType, infoInitUnit.level);
-        unitStatus.Init(infoInitUnit.unitType, infoInitUnit.level);
-
+        unitStatus.Init(this, infoInitUnit);
+        unitLevelProgression.Init(infoInitUnit);
         unitLevelProgression.AssignOnUnitLevelUp(OnUnitLevelUp);
-
         UnitsCollector.instance.OnUnitEntry(unitType, this);
     }
 
@@ -36,37 +34,24 @@ public class UnitMain : MonoBehaviour
         unitCollisionDetect.DisableCollisionDetect();
     }
 
-    private void OnUnitLevelUp(int level)
+    protected virtual void OnUnitLevelUp(int level)
     {
         unitStatus.OnUnitLevelUp(level);
     }
 
-    public void OnUnitDamaged(InfoDamage infoDamage)
+    public virtual void OnUnitDamaged(InfoDamage infoDamage)
     {
         unitStatus.OnUnitDamaged(infoDamage);
     }
 
-    public void OnUnitHealed(int heal)
+    public virtual void OnUnitHealed(int heal)
     {
         unitStatus.OnUnitHealed(heal);
     }
 
-    public void OnUnitDie()
+    public virtual void OnUnitDie()
     {
         CustomDebug.SetMessage($"{unitType} is dead");
-        if (unitType == UnitType.Hero)
-        {
-            // remove & rearrange units
-            HeroHeadGroup.instance.OnHeroDie(this);
-        }
-        else
-        {
-            // remove & give reward
-            CurrentBox.BoxStatus = BoxStatus.Empty;
-            var exp = unitLevelProgression.CalculateExp();
-            HeroHeadGroup.instance.OnEnemyDie(exp);
-        }
-
         UnitsCollector.instance.OnUnitExit(unitType, this);
         Destroy(gameObject);
     }

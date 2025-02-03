@@ -8,6 +8,18 @@ public class UIUnitStatsCards : MonoBehaviour
     public void InitStatsCards(UnitClass uClass, int level)
     {
         var unitStats = uClass.GetUnitStats(level);
+        SetCard(unitStats, new UnitStat());
+    }
+
+    public void UpdateStatsCards(UnitStatus status)
+    {
+        var baseStats = status.UnitStat;
+        var bonusStats = status.BonusStat;
+        SetCard(baseStats, bonusStats);
+    }
+
+    private void SetCard(UnitStat baseStats, UnitStat bonusStats)
+    {
         for (int iStat = statTypes.Length - 1; iStat >= 0; iStat--)
         {
             var stat = statTypes[iStat];
@@ -15,8 +27,9 @@ public class UIUnitStatsCards : MonoBehaviour
             {
                 if (unitStatCards[iCard].StatType != statTypes[iStat]) continue;
                 var cCard = unitStatCards[iCard];
-                var statValue = unitStats.GetStatValue(stat);
-                cCard.SetStatValue(statValue, 0);
+                var statValue = baseStats.GetStatValue(stat);
+                var bonusValue = bonusStats.GetStatValue(stat);
+                cCard.SetStatValue(statValue, bonusValue);
             }
         }
     }

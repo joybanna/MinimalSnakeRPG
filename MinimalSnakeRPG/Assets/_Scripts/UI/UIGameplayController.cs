@@ -5,7 +5,14 @@ public class UIGameplayController : MonoBehaviour
 {
     public static UIGameplayController instance;
 
+    [SerializeField] private UIMainController mainController;
     [SerializeField] private UISelectStartHero selectStartHero;
+    [SerializeField] private UIPlayerUnits playerUnits;
+    [SerializeField] private UIBuffGroup buffGroup;
+
+    public UIMainController MainController => mainController;
+    public UIPlayerUnits PlayerUnits => playerUnits;
+    public UIBuffGroup BuffGroup => buffGroup;
 
     private void Awake()
     {

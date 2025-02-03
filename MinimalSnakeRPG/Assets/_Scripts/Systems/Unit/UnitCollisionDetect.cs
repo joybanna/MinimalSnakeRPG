@@ -38,7 +38,7 @@ public class UnitCollisionDetect : MonoBehaviour
                 var infoDamage = _myUnitMain.UnitStatus.OnUnitAttack();
                 enemy.OnUnitDamaged(infoDamage);
                 _myUnitMain.UnitMovement.SetRotation(dir);
-                CustomDebug.SetMessage($"Attack Enemy {enemy.name}", Color.red);
+                // CustomDebug.SetMessage($"Attack Enemy {enemy.name}", Color.yellow);
             }
             else
             {

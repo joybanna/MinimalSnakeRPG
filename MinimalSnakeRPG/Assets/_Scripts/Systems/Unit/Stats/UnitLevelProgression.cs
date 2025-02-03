@@ -6,17 +6,15 @@ public class UnitLevelProgression : MonoBehaviour
 {
     private int _currentLevel;
     public int CurrentLevel => _currentLevel;
-
-    [SerializeField] private UnitStatus unitStatus;
-
     private int _exp;
+    public int CurrentExp => _exp;
     private int _nextLevelExp;
+    public int NextLevelExp => _nextLevelExp;
     private UnityAction<int> _onUnitLevelUp;
 
-    public void Init(UnitType uType, int level)
+    public void Init(InfoInitUnit infoInitUnit)
     {
-        _currentLevel = level;
-        unitStatus.Init(uType, level);
+        _currentLevel = infoInitUnit.level;
         _exp = this.CalculateExp();
     }
 
@@ -28,7 +26,6 @@ public class UnitLevelProgression : MonoBehaviour
     private void OnUnitLevelUp()
     {
         _currentLevel++;
-        unitStatus.OnUnitLevelUp(_currentLevel);
         _nextLevelExp = this.NextLevelExp();
         CustomDebug.SetMessage($"Unit Level Up {_currentLevel} : {_exp} / {_nextLevelExp} to next level", Color.green);
         _onUnitLevelUp?.Invoke(_currentLevel);

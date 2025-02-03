@@ -1,12 +1,19 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UIMainController : MonoBehaviour
 {
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private TMP_Text enemyWaveText;
+    [SerializeField] private TMP_Text turnCountText;
 
-    public void OnClickStartGame()
+    public void SetEnemyWaveText(int wave)
     {
-        GameplayStateController.instance.OnGameStart();
+        enemyWaveText.text = $"Wave {wave}";
+    }
+
+    public void SetTurnCountText(int turnCount)
+    {
+        turnCountText.text = $"Turn {turnCount}";
     }
 }

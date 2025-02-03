@@ -4,14 +4,15 @@ using UnityEngine;
 public class EnemyAutoMove : MonoBehaviour
 {
     [SerializeField] private bool _isMovable;
-    [SerializeField] private UnitMain _unitMain;
+     private UnitMain _unitMain;
 
     private Box _currentBox => _unitMain ? _unitMain.CurrentBox : null;
     private UnitDirection _currentDirection => _unitMain ? _unitMain.UnitMovement.CurrentDirection : UnitDirection.None;
     public bool IsMovable => _isMovable;
 
-    public void InitEnemy(bool isMovable)
+    public void InitEnemy(UnitMain unitMain, bool isMovable)
     {
+        _unitMain = unitMain;
         this._isMovable = isMovable;
     }
 

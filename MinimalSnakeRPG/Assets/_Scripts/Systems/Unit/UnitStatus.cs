@@ -4,23 +4,26 @@ public class UnitStatus : MonoBehaviour
 {
     private UnitType _unitType;
     [SerializeField] private UnitClass unitClass = UnitClass.Warrior;
-    private UnitStat _unitStat;
+    public UnitClass UnitClass => unitClass;
+    [SerializeField] private UnitStat _unitStat;
     public UnitStat UnitStat => _unitStat;
 
-    private UnitStat _bonusStat;
+    [SerializeField] private UnitStat _bonusStat;
     public UnitStat BonusStat => _bonusStat;
 
 
     private int _currentHp;
-    private int MaxHp => _unitStat.hp + _bonusStat.hp;
-    [SerializeField] private UnitMain unitMain;
+    public int CurrentHp => _currentHp;
+    public int MaxHp => _unitStat.hp + _bonusStat.hp;
+    private UnitMain _unitMain;
 
-    public void Init(UnitType uType, int level)
+    public void Init(UnitMain unitMain, InfoInitUnit infoInitUnit)
     {
-        _unitType = uType;
+        _unitMain = unitMain;
+        _unitType = infoInitUnit.unitType;
         _unitStat = LoadDataUnitClassStats.Instance.GetBaseStats(unitClass);
-        _unitStat.SetStatCurrentLevel(level);
-        _bonusStat = new UnitStat();
+        _unitStat.SetStatCurrentLevel(infoInitUnit.level);
+        UpdateBonusStat();
         _currentHp = MaxHp;
         unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
     }
@@ -28,13 +31,14 @@ public class UnitStatus : MonoBehaviour
     public void OnUnitLevelUp(int level)
     {
         _unitStat.SetStatCurrentLevel(level);
+        UpdateBonusStat();
         _currentHp = MaxHp;
-        unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
+        _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
     }
 
     public InfoDamage OnUnitAttack()
     {
-        var finalAtk = _unitStat.attack + _bonusStat.attack;
+        var finalAtk = _unitStat.CalDamage(_bonusStat);
         return new InfoDamage
         {
             attackerClass = unitClass,
@@ -44,14 +48,15 @@ public class UnitStatus : MonoBehaviour
 
     public void OnUnitDamaged(InfoDamage infoDamage)
     {
-        var finalDef = _unitStat.defense + _bonusStat.defense;
+        var finalDef = _unitStat.CalDefend(_bonusStat);
         var damage = unitClass.CalDamaged(finalDef, infoDamage);
-        CustomDebug.SetMessage($"Damage to {_unitType} : {damage}");
+        CustomDebug.SetMessage($"Damage to {_unitType} : {damage}", Color.yellow);
         _currentHp -= damage;
-        unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
+        _currentHp = Mathf.Clamp(_currentHp, 0, MaxHp);
+        _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
         if (_currentHp <= 0)
         {
-            unitMain.OnUnitDie();
+            _unitMain.OnUnitDie();
         }
     }
 
@@ -60,5 +65,17 @@ public class UnitStatus : MonoBehaviour
         var tmp = _currentHp + heal;
         tmp = Mathf.Clamp(tmp, 0, MaxHp);
         _currentHp = tmp;
+    }
+
+    public void UpdateBonusStat()
+    {
+        if (_unitType == UnitType.Hero)
+        {
+            _bonusStat = BuffCollector.instance.GetBuffBonus();
+        }
+        else
+        {
+            return;
+        }
     }
 }

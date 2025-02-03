@@ -33,22 +33,22 @@ public class BoxGuide : MonoBehaviour
     {
         while (_isShowMoveableArea)
         {
-            spriteRenderer.color = color;
+            spriteRenderer.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
-            spriteRenderer.color = _originalColor;
+            spriteRenderer.gameObject.SetActive(false);
             yield return new WaitForSeconds(0.5f);
         }
 
-        spriteRenderer.color = _currentColor;
+        spriteRenderer.gameObject.SetActive(false);
     }
 
     public void SetColor(BoxStatus status)
     {
         var color = status switch
         {
-            BoxStatus.Empty => Color.white,
+            BoxStatus.Empty => Color.yellow,
             BoxStatus.Hero => Color.cyan,
-            BoxStatus.Enemy => Color.yellow,
+            BoxStatus.Enemy => Color.red,
             BoxStatus.Collectible => Color.green,
             BoxStatus.Obstacle => Color.red,
             BoxStatus.Blind => new Color(1, 1, 1, 0),

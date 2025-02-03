@@ -14,7 +14,7 @@ public class UICardSelectHero : MonoBehaviour
     {
         _main = main;
         _infoUnitClass = LoadDataUnitClassStats.Instance.GetInfoUnitClass(unitClass);
-        heroCard.InitCard(unitClass, level);
+        heroCard.InitCard(_infoUnitClass, level);
         heroAbility.text = $"Ability : " + _infoUnitClass.ability;
         heroPassive.text = $"Passive : " + _infoUnitClass.passive;
     }

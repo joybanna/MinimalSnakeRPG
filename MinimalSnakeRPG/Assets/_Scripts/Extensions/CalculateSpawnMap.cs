@@ -38,6 +38,6 @@ public static class CalculateSpawnMap
 
     public static bool GetEnemyMoveable()
     {
-        return UnityEngine.Random.Range(0, 100) < 50;
+        return UnityEngine.Random.Range(0, 100) < 100;
     }
 }

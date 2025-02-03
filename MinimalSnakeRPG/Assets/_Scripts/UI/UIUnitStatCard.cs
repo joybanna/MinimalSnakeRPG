@@ -18,6 +18,14 @@ public class UIUnitStatCard : MonoBehaviour
 
     public void SetStatValue(int valueMain, int valueBonus)
     {
-        statValue.text = valueMain + " + " + valueBonus;
+        var isBonus = valueBonus > 0;
+        if (isBonus)
+        {
+            statValue.text = valueMain +  $"+ <color=#{ColorUtility.ToHtmlStringRGBA(Color.green)}>{valueBonus}</color>";;
+        }
+        else
+        {
+            statValue.text = valueMain.ToString();
+        }
     }
 }

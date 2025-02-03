@@ -11,6 +11,7 @@ public class HeroHeadGroup : MonoBehaviour
     [SerializeField] private UnitMain head;
     [SerializeField] private HistoryMove historyMove;
     [SerializeField] private PlayerHeroControl playerHeroControl;
+    private Dictionary<UnitMain, UICardPlayerUnit> _playerUnits;
 
     public Box HeadBox => head.UnitMovement.CurrentBox;
 
@@ -30,8 +31,12 @@ public class HeroHeadGroup : MonoBehaviour
     {
         head = leader;
         heroMovements ??= new List<UnitMain>();
+        _playerUnits ??= new Dictionary<UnitMain, UICardPlayerUnit>();
         heroMovements.Add(head);
         historyMove.InitHistory(infoInitUnit.box, infoInitUnit.direction);
+
+        var card = UIGameplayController.instance.PlayerUnits.InitHeadHero(head);
+        _playerUnits.Add(head, card);
     }
 
 
@@ -80,6 +85,9 @@ public class HeroHeadGroup : MonoBehaviour
         unitMain.OnUnitRecruited();
         unitMain.UnitMovement.Move(head.UnitMovement.CurrentDirection, box);
         heroMovements.Add(unitMain);
+
+        var card = UIGameplayController.instance.PlayerUnits.RecruitedHero(unitMain);
+        _playerUnits.Add(unitMain, card);
     }
 
     public void OnPlayerTurnStart()
@@ -141,6 +149,7 @@ public class HeroHeadGroup : MonoBehaviour
     public void OnEnemyDie(int exp)
     {
         head.UnitLevelProgression.ReceiveExp(exp);
+        UpdatePlayerUnit(head);
 
         if (_willMoveBox) // replace enemy box
         {
@@ -154,6 +163,7 @@ public class HeroHeadGroup : MonoBehaviour
         if (heroMovements.IsEmptyCollection())
         {
             // Game Over
+            CustomDebug.SetMessage("#### Game Over", Color.red);
         }
         else
         {
@@ -164,6 +174,35 @@ public class HeroHeadGroup : MonoBehaviour
 
             RearrangeHeroes();
         }
+    }
+
+    public void UpdatePlayerUnit(UnitMain unitMain) // buff , level up
+    {
+        if (unitMain != null)
+        {
+            var isCon = _playerUnits.TryGetValue(unitMain, out var card);
+            if (isCon)
+            {
+                card.UpdateCard(unitMain);
+            }
+        }
+        else
+        {
+            foreach (var unit in _playerUnits)
+            {
+                unit.Value.UpdateCard(unit.Key);
+            }
+        }
+    }
+
+    public void UpdateBonusStat()
+    {
+        foreach (var heroMovement in heroMovements)
+        {
+            heroMovement.UnitStatus.UpdateBonusStat();
+        }
+
+        UpdatePlayerUnit(null);
     }
 }
 

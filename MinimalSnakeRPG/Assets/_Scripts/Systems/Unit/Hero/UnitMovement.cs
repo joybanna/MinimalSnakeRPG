@@ -31,14 +31,14 @@ public class UnitMovement : MonoBehaviour
 
     public Box CurrentBox => _currentBox;
 
-    public void Init(UnitType uType, UnitDirection dir, Box box)
+    public void Init(InfoInitUnit infoInitUnit)
     {
-        _unitType = uType;
-        direction = dir;
-        _previousDirection = dir;
-        this.transform.position = box.transform.position;
+        _unitType = infoInitUnit.unitType;
+        direction = infoInitUnit.direction;
+        _previousDirection = direction;
+        this.transform.position = infoInitUnit.box.transform.position;
         SetRotation(direction);
-        SetBoxStatus(box);
+        SetBoxStatus(infoInitUnit.box);
     }
 
     public void Move(UnitDirection dir, Box box)

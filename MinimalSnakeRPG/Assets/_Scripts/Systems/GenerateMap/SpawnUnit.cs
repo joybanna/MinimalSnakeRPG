@@ -10,7 +10,7 @@ public class SpawnUnit : MonoBehaviour
 
     [SerializeField] protected Transform parent;
 
-    public void SpawnUnitClass(UnitClass unitClass,int level = 1)
+    public void SpawnUnitClass(UnitClass unitClass, int level = 1)
     {
         var isBox = spawnController.GetSpawnBox(out var spawnBox);
         if (!isBox)
@@ -32,7 +32,7 @@ public class SpawnUnit : MonoBehaviour
         SpawnUnitClass(classUnit);
     }
 
-    protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box,int level = 1)
+    protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box, int level = 1)
     {
         var unit = Instantiate(prefab, box.transform.position, Quaternion.identity);
         var dir = ExtensionSystems.GetRandomDirection();
@@ -43,7 +43,7 @@ public class SpawnUnit : MonoBehaviour
         if (unitType == UnitType.Enemy)
         {
             var enemyAutoMove = unit.GetComponent<EnemyAutoMove>();
-            enemyAutoMove.InitEnemy(CalculateSpawnMap.GetEnemyMoveable());
+            enemyAutoMove.InitEnemy(unit, CalculateSpawnMap.GetEnemyMoveable());
         }
 
         return unit;
