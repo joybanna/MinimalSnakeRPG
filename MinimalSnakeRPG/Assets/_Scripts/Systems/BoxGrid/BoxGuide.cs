@@ -13,6 +13,7 @@ public class BoxGuide : MonoBehaviour
 
     private void Start()
     {
+        spriteRenderer.color = Color.white;
         _originalColor = spriteRenderer.color;
         _currentColor = _originalColor;
     }

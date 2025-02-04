@@ -88,7 +88,7 @@ public class SpawnController : MonoBehaviour
 
     public void SpawnStarter(UnitClass uClass, int level)
     {
-        spawnStarterUnit.SpawnUnitClass(uClass, level);
+        spawnStarterUnit.SpawnUnitClass(uClass, wave);
     }
 }
 

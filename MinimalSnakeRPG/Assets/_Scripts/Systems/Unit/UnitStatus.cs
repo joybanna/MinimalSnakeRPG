@@ -17,12 +17,15 @@ public class UnitStatus : MonoBehaviour
     public int MaxHp => _unitStat.hp + _bonusStat.hp;
     private UnitMain _unitMain;
 
+    private UnitStat _baseStat;
+
     public void Init(UnitMain unitMain, InfoInitUnit infoInitUnit)
     {
         _unitMain = unitMain;
         _unitType = infoInitUnit.unitType;
-        _unitStat = LoadDataUnitClassStats.Instance.GetBaseStats(unitClass);
-        _unitStat.SetStatCurrentLevel(infoInitUnit.level);
+        _baseStat = LoadDataUnitClassStats.Instance.GetBaseStats(unitClass);
+        _unitStat = new UnitStat(_baseStat);
+        _unitStat.SetStatCurrentLevel(_baseStat, infoInitUnit.level);
         UpdateBonusStat();
         _currentHp = MaxHp;
         unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
@@ -30,7 +33,7 @@ public class UnitStatus : MonoBehaviour
 
     public void OnUnitLevelUp(int level)
     {
-        _unitStat.SetStatCurrentLevel(level);
+        _unitStat.SetStatCurrentLevel(_baseStat, level);
         UpdateBonusStat();
         _currentHp = MaxHp;
         _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);

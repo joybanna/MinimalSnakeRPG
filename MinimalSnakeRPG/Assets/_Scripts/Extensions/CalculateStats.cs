@@ -3,22 +3,22 @@ using UnityEngine;
 
 public static class CalculateStats
 {
-    public static int CalAtkOnLevel(this UnitStat stat, int level)
+    public static int CalAtkOnLevel(this UnitStat baseStat, int level)
     {
-        var defaultAtk = stat.attack - (level - 1);
+        var defaultAtk = baseStat.attack + (level - 1);
         return defaultAtk + level;
     }
 
-    public static int CalDefOnLevel(this UnitStat stat, int level)
+    public static int CalDefOnLevel(this UnitStat baseStat, int level)
     {
-        var defaultDef = stat.defense - (level - 1);
+        var defaultDef = baseStat.defense + (level - 1);
         var round = Mathf.RoundToInt(level / 2f);
         return defaultDef + round;
     }
 
-    public static int CalHpOnLevel(this UnitStat stat, int level)
+    public static int CalHpOnLevel(this UnitStat baseStat, int level)
     {
-        var defaultHp = stat.hp - (level - 1);
+        var defaultHp = baseStat.hp +(level - 1);
         var round = Mathf.RoundToInt(level * 1.5f);
         return defaultHp + round;
     }
@@ -68,7 +68,7 @@ public static class CalculateStats
     public static UnitStat GetUnitStats(this UnitClass uClass, int level)
     {
         var baseStats = LoadDataUnitClassStats.Instance.GetBaseStats(uClass);
-        baseStats.SetStatCurrentLevel(level);
+        baseStats.SetStatCurrentLevel(baseStats, level);
         return baseStats;
     }
 }

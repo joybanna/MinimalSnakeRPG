@@ -5,7 +5,7 @@
     public Box box;
     public int level;
 
-    public InfoInitUnit(UnitType uType, UnitDirection dir, Box box, int level = 1)
+    public InfoInitUnit(UnitType uType, UnitDirection dir, Box box, int level)
     {
         unitType = uType;
         direction = dir;

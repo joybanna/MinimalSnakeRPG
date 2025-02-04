@@ -18,12 +18,12 @@ public class UISelectStartHero : MonoBehaviour
     public void OnSelectedCard()
     {
         ClosePanel();
-        
+
         // free items
-        InventoryManager.Instance.AddItem(CollectibleType.Sword, 1);
-        InventoryManager.Instance.AddItem(CollectibleType.Shield, 1);
-        InventoryManager.Instance.AddItem(CollectibleType.Potion, 1);
-        
+        InventoryManager.Instance.AddItem(CollectibleType.Sword, 5);
+        InventoryManager.Instance.AddItem(CollectibleType.Shield, 5);
+        InventoryManager.Instance.AddItem(CollectibleType.Potion, 5);
+
         GameplayStateController.instance.OnGameStart();
     }
 

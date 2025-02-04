@@ -22,11 +22,18 @@ public struct UnitStat
         this.defense = defense;
     }
 
-    public void SetStatCurrentLevel(int level)
+    public UnitStat(UnitStat stats)
     {
-        hp = this.CalHpOnLevel(level);
-        attack = this.CalAtkOnLevel(level);
-        defense = this.CalDefOnLevel(level);
+        this.hp = stats.hp;
+        this.attack = stats.attack;
+        this.defense = stats.defense;
+    }
+
+    public void SetStatCurrentLevel(UnitStat baseStat, int level)
+    {
+        hp = baseStat.CalHpOnLevel(level);
+        attack = baseStat.CalAtkOnLevel(level);
+        defense = baseStat.CalDefOnLevel(level);
     }
 
     public int GetStatValue(StatType statType)
