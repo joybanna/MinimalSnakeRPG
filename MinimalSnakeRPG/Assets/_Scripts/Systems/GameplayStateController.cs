@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public enum GameplayState
@@ -37,10 +38,9 @@ public class GameplayStateController : MonoBehaviour
 
     public void OnPlayerTurnEnd()
     {
-        CurrentState = GameplayState.EnemyTurn;
-        UIGameplayController.instance.EnemyTurn.OpenPanel();
+        CustomDebug.SetMessage($"OnPlayerTurnEnd", Color.cyan);
         GridBoxesCollector.instance.HideMoveableArea();
-        EnemyTurnController.instance.OnEnemyTurnStart();
+        StartCoroutine(OnPlayerStateEndCheck());
     }
 
     public void OnEnemyTurnEnd()
@@ -51,6 +51,8 @@ public class GameplayStateController : MonoBehaviour
         BuffCollector.instance.OnTurnChange();
         UIGameplayController.instance.MainController.SetTurnCountText(TurnCount);
         UIGameplayController.instance.EnemyTurn.ClosePanel();
+
+        CustomDebug.SetMessage("OnEnemyTurnEnd", Color.cyan);
     }
 
     public void OnGameStart()
@@ -65,5 +67,21 @@ public class GameplayStateController : MonoBehaviour
     {
         CurrentState = GameplayState.NullState;
         UIGameplayController.instance.OpenGameOver();
+    }
+
+
+    private IEnumerator OnPlayerStateEndCheck()
+    {
+        CurrentState = GameplayState.NullState;
+        var isCleared = UnitsCollector.instance.CheckClearedEnemies();
+        if (isCleared) yield break;
+        ContinueStateToEnemy();
+    }
+
+    public void ContinueStateToEnemy()
+    {
+        CurrentState = GameplayState.EnemyTurn;
+        UIGameplayController.instance.EnemyTurn.OpenPanel();
+        EnemyTurnController.instance.OnEnemyTurnStart();
     }
 }

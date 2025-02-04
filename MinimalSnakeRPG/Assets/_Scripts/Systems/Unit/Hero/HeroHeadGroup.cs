@@ -33,6 +33,7 @@ public class HeroHeadGroup : MonoBehaviour
         heroMovements.Add(head);
         historyMove.InitHistory(infoInitUnit.box, infoInitUnit.direction);
         UIGameplayController.instance.PlayerUnits.InitHeadHero(head);
+        head.ShowArrowDir(true);
     }
 
     public void HealHeadHero(int heal)
@@ -64,6 +65,7 @@ public class HeroHeadGroup : MonoBehaviour
     {
         head.UnitMovement.Move(dir, box);
         historyMove.AddHistory(dir, box);
+        head.AbilityBase.OnMoved();
         // move other hero
         MoveOtherHeroes();
 
@@ -119,10 +121,11 @@ public class HeroHeadGroup : MonoBehaviour
     public void SwapHeadToLastHero()
     {
         if (heroMovements.Count <= 1) return;
+        head.ShowArrowDir(false);
         heroMovements.Remove(head);
         heroMovements.Add(head);
+        PickHead();
         RearrangeHeroes();
-        head = heroMovements[0];
         CustomDebug.SetMessage("Swap Head to Last Hero", Color.green);
         UIGameplayController.instance.PlayerUnits.SwapFirstToLast();
         GameplayStateController.instance.OnPlayerTurnEnd();
@@ -132,15 +135,22 @@ public class HeroHeadGroup : MonoBehaviour
     public void SwapLastHeroToHead()
     {
         if (heroMovements.Count <= 1) return;
+        head.ShowArrowDir(false);
         var lastHero = heroMovements[^1];
         heroMovements.Remove(lastHero);
         heroMovements.Insert(0, lastHero);
         RearrangeHeroes();
-        head = heroMovements[0];
+        PickHead();
         CustomDebug.SetMessage("Swap Last Hero to Head", Color.green);
         UIGameplayController.instance.PlayerUnits.SwapLastToFirst();
         GameplayStateController.instance.OnPlayerTurnEnd();
         SoundController.instance.PlaySFX(SoundSource.UIClick);
+    }
+
+    private void PickHead()
+    {
+        head = heroMovements[0];
+        head.ShowArrowDir(true);
     }
 
     public void RearrangeHeroes()

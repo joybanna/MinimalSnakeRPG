@@ -20,6 +20,7 @@
 
     public override void OnUnitDie()
     {
+        CurrentBox.BoxStatus = BoxStatus.Enemy;
         HeroHeadGroup.instance.OnHeroDie(this);
         UIGameplayController.instance.PlayerUnits.RemoveCardPlayerUnit(this);
         base.OnUnitDie();

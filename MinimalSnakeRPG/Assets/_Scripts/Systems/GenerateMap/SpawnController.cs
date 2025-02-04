@@ -12,6 +12,7 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private SpawnUnit spawnEnemy;
     [SerializeField] private SpawnStarterUnit spawnStarterUnit;
     [SerializeField] private SpawnCollectible spawnCollectible;
+    [SerializeField] private SpawnObstacle spawnObstacle;
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class SpawnController : MonoBehaviour
     }
 
 
-    public bool GetSpawnBox(out Box box)
+    public bool GetSpawnBox(bool isReRandom, out Box box)
     {
         if (_randomBoxes.Count == 0)
         {
@@ -42,6 +43,7 @@ public class SpawnController : MonoBehaviour
             return false;
         }
 
+        if (isReRandom) ShuffleListBoxes();
         for (int i = _randomBoxes.Count - 1; i >= 0; i--)
         {
             var b = _randomBoxes[i];
@@ -59,7 +61,7 @@ public class SpawnController : MonoBehaviour
 
     public void SpawnWave()
     {
-        StartCoroutine(ChainSpawnUnits());
+        StartCoroutine(ChainSpawnUnits(true));
         UIGameplayController.instance.MainController.SetEnemyWaveText(wave);
     }
 
@@ -69,36 +71,18 @@ public class SpawnController : MonoBehaviour
         wave++;
         UIGameplayController.instance.MainController.SetEnemyWaveText(wave);
         CustomDebug.SetMessage("NextWave: " + wave, Color.green);
-        SpawnWave();
+        StartCoroutine(ChainSpawnUnits(false));
     }
 
-    private IEnumerator ChainSpawnUnits()
+    private IEnumerator ChainSpawnUnits(bool isStart = false)
     {
-        yield return SpawnUnits(UnitType.Enemy);
-        yield return SpawnUnits(UnitType.Hero);
-        yield return SpawnCollectibles();
-    }
-
-    private IEnumerator SpawnUnits(UnitType unitType)
-    {
-        var count = CalculateSpawnMap.GetContSpawnUnit(unitType, wave);
-        if (count == 0) yield break;
-        var selected = unitType == UnitType.Hero ? spawnHero : spawnEnemy;
-        for (int i = 0; i < count; i++)
+        yield return spawnObstacle.Spawns(wave);
+        yield return spawnEnemy.Spawns(wave);
+        yield return spawnHero.Spawns(wave);
+        yield return spawnCollectible.Spawns(wave);
+        if (!isStart)
         {
-            selected.SpawnUnitRandomClass();
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-    private IEnumerator SpawnCollectibles()
-    {
-        var count = CalculateSpawnMap.GetCollectibleSpawn(wave);
-        if (count == 0) yield break;
-        for (int i = 0; i < count; i++)
-        {
-            spawnCollectible.RandomSpawnCollectibleItem();
-            yield return new WaitForSeconds(0.1f);
+            GameplayStateController.instance.ContinueStateToEnemy();
         }
     }
 

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7cba3248a94216b437d3e83e66c2dc, type: 3}
+  m_Name: DataObstacle
+  m_EditorClassIdentifier: 
+  squareOnePrefab: {fileID: 145193420929049741, guid: ecaa15881a71c4e49888b38a9700775d, type: 3}
+  squareTwoPrefab: {fileID: 4233373361327724341, guid: 55a7fee6046d8c242975091e28635463, type: 3}
+  rectVerticalPrefab: {fileID: 2718339837834446379, guid: c068ea1bd01f4004f8ee3158bd9574b8, type: 3}
+  rectHorizontalPrefab: {fileID: 2181438649766980380, guid: 29db4f1f568147340a5d318618d89b08, type: 3}

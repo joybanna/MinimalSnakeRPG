@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnCollectible : MonoBehaviour
+public class SpawnCollectible : SpawnerBase
 {
     [SerializeField] protected SpawnController spawnController;
     [SerializeField] private Collectible prefabSword;
@@ -28,7 +29,7 @@ public class SpawnCollectible : MonoBehaviour
 
     public void SpawnCollectibleItem(CollectibleType collectibleType)
     {
-        var isBox = spawnController.GetSpawnBox(out var box);
+        var isBox = spawnController.GetSpawnBox(false,out var box);
         if (!isBox)
         {
             CustomDebug.SetMessage("Spawn Box is null", Color.red);
@@ -54,6 +55,17 @@ public class SpawnCollectible : MonoBehaviour
     {
         if (_collectibles.IsEmptyCollection()) return;
         _collectibles.Remove(collectible);
+    }
+
+    public override IEnumerator Spawns(int wave)
+    {
+        var count = CalculateSpawnMap.GetCollectibleSpawn(wave);
+        if (count == 0) yield break;
+        for (int i = 0; i < count; i++)
+        {
+            RandomSpawnCollectibleItem();
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
 

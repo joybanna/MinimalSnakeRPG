@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SpawnStarterUnit : SpawnUnit
 {
@@ -14,4 +15,5 @@ public class SpawnStarterUnit : SpawnUnit
         heroHeadGroup.InitHeadHero(unit, info);
         return unit;
     }
+    
 }

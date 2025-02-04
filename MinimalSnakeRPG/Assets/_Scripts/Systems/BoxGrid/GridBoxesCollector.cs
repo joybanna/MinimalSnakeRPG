@@ -130,6 +130,12 @@ public class GridBoxesCollector : MonoBehaviour
                Mathf.Approximately(box.Grid.y, verticalGridCap.x) ||
                Mathf.Approximately(box.Grid.y, verticalGridCap.y);
     }
+
+    public bool FindBox(float x, float y, out Box box)
+    {
+        box = gridBoxes.Find(b => Mathf.Approximately(b.Grid.x, x) && Mathf.Approximately(b.Grid.y, y));
+        return box != null;
+    }
 }
 
 #if UNITY_EDITOR

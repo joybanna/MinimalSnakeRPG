@@ -18,15 +18,6 @@ public class UICardPlayerUnit : UIHeroCard
         SetStats(uStats);
     }
 
-    public void OnDamaged(int health, int maxHealth)
-    {
-        healthBar.SetValue(health, maxHealth);
-    }
-
-    public void OnHealed(int health, int maxHealth)
-    {
-        healthBar.SetValue(health, maxHealth);
-    }
 
     public void SetLeveled(int level, int exp, int maxExp)
     {

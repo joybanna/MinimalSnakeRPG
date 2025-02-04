@@ -11,6 +11,6 @@ public static class CalculateLevelProgression
 
     public static int CalculateExp(this UnitLevelProgression unitLevel)
     {
-        return unitLevel.CurrentLevel;
+        return 1;
     }
 }

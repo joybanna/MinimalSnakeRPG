@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AbilityBase : MonoBehaviour
 {
@@ -16,10 +17,10 @@ public class AbilityBase : MonoBehaviour
 
     public virtual void OnMoved()
     {
-        
     }
 
     public virtual void OnAttack()
     {
     }
+    
 }

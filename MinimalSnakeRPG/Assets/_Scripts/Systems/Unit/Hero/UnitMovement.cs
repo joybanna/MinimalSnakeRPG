@@ -50,7 +50,7 @@ public class UnitMovement : MonoBehaviour
         SetBoxStatus(box);
     }
 
-    public void SetBoxStatus(Box currentBox)
+    private void SetBoxStatus(Box currentBox)
     {
         if (_currentBox != null)
         {

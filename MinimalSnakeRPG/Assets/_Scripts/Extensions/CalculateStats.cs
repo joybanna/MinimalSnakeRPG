@@ -12,13 +12,15 @@ public static class CalculateStats
     public static int CalDefOnLevel(this UnitStat stat, int level)
     {
         var defaultDef = stat.defense - (level - 1);
-        return defaultDef + level;
+        var round = Mathf.RoundToInt(level / 2f);
+        return defaultDef + round;
     }
 
     public static int CalHpOnLevel(this UnitStat stat, int level)
     {
         var defaultHp = stat.hp - (level - 1);
-        return defaultHp + level;
+        var round = Mathf.RoundToInt(level * 1.5f);
+        return defaultHp + round;
     }
 
     public static int CalDamage(this UnitStat stat, UnitStat bonus)
@@ -46,9 +48,9 @@ public static class CalculateStats
         if (def == atk) return 1;
         switch (def)
         {
-            case UnitClass.Warrior when atk == UnitClass.Rogue:
-            case UnitClass.Rogue when atk == UnitClass.Wizard:
-            case UnitClass.Wizard when atk == UnitClass.Warrior:
+            case UnitClass.Warrior when atk == UnitClass.Wizard:
+            case UnitClass.Rogue when atk == UnitClass.Warrior:
+            case UnitClass.Wizard when atk == UnitClass.Rogue:
                 return 2;
             default:
                 return 1;

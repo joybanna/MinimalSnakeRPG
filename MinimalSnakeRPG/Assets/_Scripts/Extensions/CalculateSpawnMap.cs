@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class CalculateSpawnMap
 {
@@ -50,5 +51,19 @@ public static class CalculateSpawnMap
             3 => 2,
             _ => 1
         };
+    }
+
+    public static List<ObstacleType> GetObstacleSpawn(ObstacleType[] spawnable, int wave)
+    {
+        var list = new List<ObstacleType>();
+        list.AddRange(spawnable);
+        list.AddRange(spawnable);
+        list.AddRange(spawnable);
+        list.Shuffle();
+
+        var sumCount = list.Count;
+        var cutCout = sumCount - 5;
+        list.RemoveRange(0, cutCout);
+        return list;
     }
 }

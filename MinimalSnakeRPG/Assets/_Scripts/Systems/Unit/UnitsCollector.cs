@@ -46,10 +46,6 @@ public class UnitsCollector : MonoBehaviour
         {
             enemies.Remove(unit);
             EnemyTurnController.instance.OnEnemyDie(unit);
-            if (enemies.Count == 0)
-            {
-                GameplayController.instance.OnEnemiesWaveDie();
-            }
         }
     }
 
@@ -64,5 +60,15 @@ public class UnitsCollector : MonoBehaviour
             default:
                 return false;
         }
+    }
+
+    public bool CheckClearedEnemies()
+    {
+        if (enemies.Count == 0)
+        {
+            GameplayController.instance.OnEnemiesWaveDie();
+        }
+
+        return enemies.Count == 0;
     }
 }

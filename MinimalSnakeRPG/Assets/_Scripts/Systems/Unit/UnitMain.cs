@@ -17,6 +17,11 @@ public class UnitMain : MonoBehaviour
     public Box CurrentBox => unitMovement.CurrentBox;
     public UnitType UnitType => unitType;
 
+    [SerializeField] protected HandleClickShowDetail handleClickShowDetail;
+    [SerializeField] protected VisualDir visualDir;
+
+    public AbilityBase AbilityBase => abilityBase;
+
     public void Init(InfoInitUnit infoInitUnit)
     {
         unitType = infoInitUnit.unitType;
@@ -26,6 +31,7 @@ public class UnitMain : MonoBehaviour
         unitLevelProgression.Init(infoInitUnit);
         unitLevelProgression.AssignOnUnitLevelUp(OnUnitLevelUp);
         abilityBase.InitAbility(this);
+        handleClickShowDetail.Init(this);
         UnitsCollector.instance.OnUnitEntry(unitType, this);
     }
 
@@ -39,17 +45,21 @@ public class UnitMain : MonoBehaviour
     protected virtual void OnUnitLevelUp(int level)
     {
         unitStatus.OnUnitLevelUp(level);
+        handleClickShowDetail.UpdateCard();
         SoundController.instance.PlaySFX(SoundSource.LevelUp);
     }
 
     public virtual void OnUnitDamaged(InfoDamage infoDamage)
     {
         unitStatus.OnUnitDamaged(infoDamage);
+        handleClickShowDetail.UpdateCard();
     }
 
     public virtual void OnUnitHealed(int heal)
     {
+        CustomDebug.SetMessage("Heal " + heal + " to " + unitType, Color.green);
         unitStatus.OnUnitHealed(heal);
+        handleClickShowDetail.UpdateCard();
     }
 
     public virtual void OnUnitDie()
@@ -68,5 +78,10 @@ public class UnitMain : MonoBehaviour
     public void OnAttack()
     {
         abilityBase.OnAttack();
+    }
+
+    public virtual void ShowArrowDir(bool isShow)
+    {
+        visualDir.ShowArrow(isShow);
     }
 }

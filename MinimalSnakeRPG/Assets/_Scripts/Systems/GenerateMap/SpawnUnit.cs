@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class SpawnUnit : MonoBehaviour
+public class SpawnUnit : SpawnerBase
 {
     [SerializeField] protected UnitType unitType;
     [SerializeField] protected SpawnController spawnController;
@@ -12,7 +13,7 @@ public class SpawnUnit : MonoBehaviour
 
     public void SpawnUnitClass(UnitClass unitClass, int level = 1)
     {
-        var isBox = spawnController.GetSpawnBox(out var spawnBox);
+        var isBox = spawnController.GetSpawnBox(false, out var spawnBox);
         if (!isBox)
         {
             CustomDebug.SetMessage("Spawn Box is null", Color.red);
@@ -26,10 +27,10 @@ public class SpawnUnit : MonoBehaviour
         }
     }
 
-    public void SpawnUnitRandomClass()
+    private void SpawnUnitRandomClass(int level)
     {
         var classUnit = CalculateStats.RandomUnitClass();
-        SpawnUnitClass(classUnit);
+        SpawnUnitClass(classUnit, level);
     }
 
     protected virtual UnitMain SpawnUnitMain(UnitMain prefab, Box box, int level = 1)
@@ -53,6 +54,18 @@ public class SpawnUnit : MonoBehaviour
     {
         if (_units == null) return;
         _units.Clear();
+    }
+
+
+    public override IEnumerator Spawns(int wave)
+    {
+        var count = CalculateSpawnMap.GetContSpawnUnit(unitType, wave);
+        if (count == 0) yield break;
+        for (int i = 0; i < count; i++)
+        {
+            SpawnUnitRandomClass(wave);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
 

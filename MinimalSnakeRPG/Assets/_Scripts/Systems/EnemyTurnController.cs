@@ -39,22 +39,13 @@ public class EnemyTurnController : MonoBehaviour
         GameplayStateController.instance.OnEnemyTurnEnd();
     }
 
-    private void MoveEnemies()
-    {
-        foreach (var enemy in _enemies)
-        {
-            enemy.MoveEnemy();
-        }
-    }
-
     IEnumerator DelayedEnemyTurnEnd()
     {
         for (var index = _enemies.Count - 1; index >= 0; index--)
         {
             var enemy = _enemies[index];
             if (enemy == null || !enemy.IsMovable) continue;
-            yield return new WaitForSeconds(0.5f);
-            enemy.MoveEnemy();
+            yield return enemy.MoveEnemy();
         }
 
         yield return new WaitForSeconds(0.5f);

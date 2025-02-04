@@ -22,7 +22,7 @@ public class Box : MonoBehaviour, IEquatable<Box>
         set
         {
             showStatus = value;
-            boxGuide.SetColor(value);
+            // boxGuide.SetColor(value);
         }
     }
 

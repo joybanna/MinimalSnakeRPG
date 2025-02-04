@@ -11,11 +11,13 @@ public class UIGameplayController : MonoBehaviour
     [SerializeField] private UIBuffGroup buffGroup;
     [SerializeField] private UIEnemyTurn enemyTurn;
     [SerializeField] private UIGameOver gameOver;
+    [SerializeField] private UIShowInfoUnit showInfoUnit;
 
     public UIMainController MainController => mainController;
     public UIPlayerUnits PlayerUnits => playerUnits;
     public UIBuffGroup BuffGroup => buffGroup;
     public UIEnemyTurn EnemyTurn => enemyTurn;
+    public UIShowInfoUnit ShowInfoUnit => showInfoUnit;
 
     private void Awake()
     {

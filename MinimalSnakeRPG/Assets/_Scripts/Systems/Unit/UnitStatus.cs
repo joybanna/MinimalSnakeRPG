@@ -65,6 +65,7 @@ public class UnitStatus : MonoBehaviour
         var tmp = _currentHp + heal;
         tmp = Mathf.Clamp(tmp, 0, MaxHp);
         _currentHp = tmp;
+        _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
     }
 
     public void UpdateBonusStat()

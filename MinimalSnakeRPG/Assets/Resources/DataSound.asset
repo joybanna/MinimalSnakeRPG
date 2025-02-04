@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: DataSound
   m_EditorClassIdentifier: 
   bgm: {fileID: 0}
-  move: {fileID: 0}
-  attack: {fileID: 0}
-  die: {fileID: 0}
-  levelUp: {fileID: 0}
-  gameOver: {fileID: 0}
-  collect: {fileID: 0}
+  move: {fileID: 8300000, guid: 270beb56112c8f84fa82b6200cea92a5, type: 3}
+  attack: {fileID: 8300000, guid: 211c3c29a090e1146b6892bb1959247b, type: 3}
+  die: {fileID: 8300000, guid: 2414e71dedd265346bbb32e59d802bb0, type: 3}
+  levelUp: {fileID: 8300000, guid: d043a8a96e9406d4096659093fd4ca8a, type: 3}
+  gameOver: {fileID: 8300000, guid: 5fee5f83157b2ff499ef1127caced8e5, type: 3}
+  collect: {fileID: 8300000, guid: 31c6b8674c90a9044b82147209d7bb7d, type: 3}
+  uiClick: {fileID: 8300000, guid: 08fd939a4ae11e7478b6b8e0223595a2, type: 3}
