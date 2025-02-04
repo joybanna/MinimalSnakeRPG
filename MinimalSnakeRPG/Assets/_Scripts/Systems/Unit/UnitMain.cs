@@ -75,9 +75,9 @@ public class UnitMain : MonoBehaviour
         abilityBase.OnTurnEnd();
     }
 
-    public void OnAttack()
+    public void OnAttack(UnitMain unit)
     {
-        abilityBase.OnAttack();
+        abilityBase.OnAttack(unit);
     }
 
     public virtual void ShowArrowDir(bool isShow)

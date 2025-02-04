@@ -64,3 +64,7 @@ public class SpawnObstacle : SpawnerBase
         obstacles.Clear();
     }
 }
+
+
+
+

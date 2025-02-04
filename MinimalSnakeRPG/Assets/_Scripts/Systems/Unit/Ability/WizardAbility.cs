@@ -2,13 +2,13 @@
 
 public class WizardAbility : AbilityBase
 {
-    public override void OnAttack()
+    public override void OnAttack(UnitMain unit)
     {
-        AttackEnemies();
-        base.OnAttack();
+        AttackEnemies(unit);
+        base.OnAttack(unit);
     }
 
-    private void AttackEnemies()
+    private void AttackEnemies(UnitMain unit)
     {
         var myBox = _unitMain.CurrentBox;
         var dir = _unitMain.UnitMovement.CurrentDirection;
@@ -17,7 +17,7 @@ public class WizardAbility : AbilityBase
         foreach (var box in neighborBox)
         {
             var isEnemy = UnitsCollector.instance.GetUnitDamaged(unitType.OppositeUnitType(), box.Value, out var enemy);
-            if (isEnemy)
+            if (isEnemy && enemy != unit)
             {
                 var infoDamage = _unitMain.UnitStatus.OnUnitAttack();
                 enemy.OnUnitDamaged(infoDamage);

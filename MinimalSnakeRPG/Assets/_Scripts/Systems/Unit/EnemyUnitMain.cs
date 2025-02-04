@@ -2,9 +2,9 @@
 {
     public override void OnUnitDie()
     {
-        // remove & give reward
         CurrentBox.BoxStatus = BoxStatus.Hero;
         var exp = unitLevelProgression.CalculateExp();
+        UIScore.instance.AddScore(unitLevelProgression.CalculateScore());
         HeroHeadGroup.instance.OnEnemyDie(exp);
         base.OnUnitDie();
     }

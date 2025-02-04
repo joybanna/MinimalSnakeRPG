@@ -43,6 +43,7 @@ public class EnemyTurnController : MonoBehaviour
     {
         for (var index = _enemies.Count - 1; index >= 0; index--)
         {
+            if (GameplayStateController.instance.CurrentState != GameplayState.EnemyTurn) yield break;
             var enemy = _enemies[index];
             if (enemy == null || !enemy.IsMovable) continue;
             yield return enemy.MoveEnemy();

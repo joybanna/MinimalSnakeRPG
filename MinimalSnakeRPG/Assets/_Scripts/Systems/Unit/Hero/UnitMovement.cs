@@ -19,8 +19,6 @@ public enum UnitType
 public class UnitMovement : MonoBehaviour
 {
     private UnitType _unitType;
-    [SerializeField] private float gridPadding = 0.1f;
-    [SerializeField] private float gridSize = 1.0f;
     [SerializeField] private UnitDirection direction = UnitDirection.Up;
     private UnitDirection _previousDirection = UnitDirection.Up;
 

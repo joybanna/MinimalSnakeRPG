@@ -50,10 +50,13 @@ public class UnitStatus : MonoBehaviour
     {
         var finalDef = _unitStat.CalDefend(_bonusStat);
         var damage = unitClass.CalDamaged(finalDef, infoDamage);
-        CustomDebug.SetMessage($"Damage to {_unitType} : {damage}", Color.yellow);
+        CustomDebug.SetMessage(
+            $"Damage to {_unitType} : ({infoDamage.finalDamage} - {finalDef})x {unitClass.GetWeakness(infoDamage.attackerClass)}  = {damage}",
+            Color.yellow);
         _currentHp -= damage;
         _currentHp = Mathf.Clamp(_currentHp, 0, MaxHp);
         _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
+        UIGameplayController.instance.ShowDmg(_unitMain, damage);
         if (_currentHp <= 0)
         {
             _unitMain.OnUnitDie();
@@ -66,6 +69,7 @@ public class UnitStatus : MonoBehaviour
         tmp = Mathf.Clamp(tmp, 0, MaxHp);
         _currentHp = tmp;
         _unitMain.HpBar.SetHpBar(_currentHp, MaxHp);
+        UIGameplayController.instance.ShowDmg(_unitMain, -heal);
     }
 
     public void UpdateBonusStat()

@@ -38,7 +38,7 @@ public class UnitCollisionDetect : MonoBehaviour
                 var infoDamage = _myUnitMain.UnitStatus.OnUnitAttack();
                 enemy.OnUnitDamaged(infoDamage);
                 _myUnitMain.UnitMovement.SetRotation(dir);
-                _myUnitMain.OnAttack();
+                _myUnitMain.OnAttack(enemy);
                 SoundController.instance.PlaySFX(SoundSource.Attack);
             }
             else
@@ -55,6 +55,7 @@ public class UnitCollisionDetect : MonoBehaviour
             else
             {
                 _myUnitMain.UnitMovement.Move(dir, box);
+                SoundController.instance.PlaySFX(SoundSource.Move);
             }
         }
     }
@@ -71,7 +72,7 @@ public class UnitCollisionDetect : MonoBehaviour
                 break;
             case UnitDoSomething.Attack:
                 CustomDebug.SetMessage($"Attack => {other.gameObject.name}", Color.red);
-                TakeDamage(other);
+                // TakeDamage(other);
                 break;
             case UnitDoSomething.Recruit:
                 RecruitHero(other);

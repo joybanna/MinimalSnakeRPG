@@ -19,7 +19,7 @@ public class AbilityBase : MonoBehaviour
     {
     }
 
-    public virtual void OnAttack()
+    public virtual void OnAttack(UnitMain unit)
     {
     }
     

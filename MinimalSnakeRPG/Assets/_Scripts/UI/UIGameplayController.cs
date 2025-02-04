@@ -12,6 +12,8 @@ public class UIGameplayController : MonoBehaviour
     [SerializeField] private UIEnemyTurn enemyTurn;
     [SerializeField] private UIGameOver gameOver;
     [SerializeField] private UIShowInfoUnit showInfoUnit;
+    [SerializeField] private UIDmgShowGroup dmgShowGroup;
+    [SerializeField] private UIMenu menu;
 
     public UIMainController MainController => mainController;
     public UIPlayerUnits PlayerUnits => playerUnits;
@@ -33,17 +35,31 @@ public class UIGameplayController : MonoBehaviour
 
     private void Start()
     {
-        SpawnController.instance.SpawnWave();
-        OpenSelectStartHero();
+        menu.OpenMenu(false);
     }
 
     public void OpenSelectStartHero()
     {
+        SpawnController.instance.SpawnWave();
+        InventoryManager.Instance.OnGameStart();
         selectStartHero.OpenPanel();
     }
 
     public void OpenGameOver()
     {
+        PlayerHeroControl.instance.enabled = false;
         gameOver.OpenPanel();
+    }
+
+    public void ShowDmg(UnitMain unitMain, int dmg)
+    {
+        dmgShowGroup.ShowDmg(unitMain, dmg);
+    }
+
+    public void OnClickMenuInGame()
+    {
+        SoundController.instance.PlaySFX(SoundSource.UIClick);
+        menu.OpenMenu(true);
+        PlayerHeroControl.instance.IsControlEnable = false;
     }
 }

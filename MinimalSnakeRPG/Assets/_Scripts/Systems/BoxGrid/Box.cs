@@ -85,7 +85,7 @@ public class Box : MonoBehaviour, IEquatable<Box>
                 BoxStatus.Empty => true,
                 BoxStatus.Collectible => true,
                 BoxStatus.Enemy => true,
-                BoxStatus.Obstacle => true,
+                BoxStatus.Obstacle => false,
                 BoxStatus.Hero => true,
                 _ => false
             };

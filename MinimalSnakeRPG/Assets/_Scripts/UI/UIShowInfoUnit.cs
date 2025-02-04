@@ -16,18 +16,19 @@ public class UIShowInfoUnit : MonoBehaviour
 
     public void HideCard(UnitMain unit)
     {
+        if (infoCard == null)
+            return;
         if (unit == _currentUnit || unit == null)
         {
             infoCard.gameObject.SetActive(false);
         }
     }
-    
+
     public void UpdateCard(UnitMain unit)
     {
         if (unit == _currentUnit)
         {
             infoCard.UpdateCard(_currentUnit);
         }
-       
     }
 }

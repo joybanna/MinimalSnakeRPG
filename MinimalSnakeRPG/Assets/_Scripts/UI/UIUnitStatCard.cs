@@ -21,7 +21,8 @@ public class UIUnitStatCard : MonoBehaviour
         var isBonus = valueBonus > 0;
         if (isBonus)
         {
-            statValue.text = valueMain +  $"+ <color=#{ColorUtility.ToHtmlStringRGBA(Color.green)}>{valueBonus}</color>";;
+            var text = $" + {valueBonus}";
+            statValue.text = valueMain + $"<color=#{ColorUtility.ToHtmlStringRGBA(Color.green)}>{text}</color>";
         }
         else
         {

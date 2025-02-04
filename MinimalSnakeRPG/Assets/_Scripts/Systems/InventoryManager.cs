@@ -71,6 +71,13 @@ public class InventoryManager : Singleton<InventoryManager>
         var isItem = _inventory.TryGetValue(collectibleType, out var item);
         return isItem ? item.Count : 0;
     }
+
+    public void OnGameStart()
+    {
+        _sword.RemoveItem(_sword.Count);
+        _shield.RemoveItem(_shield.Count);
+        _potion.RemoveItem(_potion.Count);
+    }
 }
 
 public class ModuleItem

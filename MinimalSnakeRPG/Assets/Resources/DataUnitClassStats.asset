@@ -28,7 +28,7 @@ MonoBehaviour:
   iconRogue: {fileID: 21300000, guid: 5a7c9371ad412614094ebfa4f427e92b, type: 3}
   iconWizard: {fileID: 21300000, guid: 950d241e5a9a6134f843ac2e396ec8bb, type: 3}
   warriorAbility: when in the lead, heal 10% every turn.
-  rogueAbility: move 2 actions in one turn.
+  rogueAbility: extra action command
   wizardAbility: attack the enemy and splash damage around.
   warriorPassive: attack to rogue deal dmg X2
   roguePassive: attack to wizard deal dmg X2

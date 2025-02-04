@@ -66,6 +66,7 @@ public class GameplayStateController : MonoBehaviour
     public void OnGameEnd()
     {
         CurrentState = GameplayState.NullState;
+        playerHeroControl.IsControlEnable = false;
         UIGameplayController.instance.OpenGameOver();
     }
 
@@ -81,6 +82,7 @@ public class GameplayStateController : MonoBehaviour
     public void ContinueStateToEnemy()
     {
         CurrentState = GameplayState.EnemyTurn;
+        playerHeroControl.IsControlEnable = false;
         UIGameplayController.instance.EnemyTurn.OpenPanel();
         EnemyTurnController.instance.OnEnemyTurnStart();
     }

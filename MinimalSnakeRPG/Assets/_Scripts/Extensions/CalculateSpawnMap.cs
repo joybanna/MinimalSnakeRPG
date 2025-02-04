@@ -3,11 +3,9 @@ using UnityEngine;
 
 public static class CalculateSpawnMap
 {
-    private const int MinEnemyPerWave = 2;
-    private const int MaxEnemyPerWave = 6;
+   
 
-    private const int MinHeroPerWave = 0;
-    private const int MaxHeroPerWave = 2;
+   
 
     public static int GetContSpawnUnit(UnitType unitType, int wave)
     {
@@ -18,7 +16,9 @@ public static class CalculateSpawnMap
             _ => 1
         };
     }
-
+    
+    private const int MinEnemyPerWave = 2;
+    private const int MaxEnemyPerWave = 6;
     private static int FormulaEnemyWave(int wave)
     {
         var main = wave + 1;
@@ -26,6 +26,8 @@ public static class CalculateSpawnMap
         return clamp;
     }
 
+    private const int MinHeroPerWave = 0;
+    private const int MaxHeroPerWave = 2;
     private static int FormulaHeroWave(int wave)
     {
         var mod = wave % 5;
@@ -62,7 +64,7 @@ public static class CalculateSpawnMap
         list.Shuffle();
 
         var sumCount = list.Count;
-        var cutCout = sumCount - 5;
+        var cutCout = sumCount - UnityEngine.Random.Range(2, 5);
         list.RemoveRange(0, cutCout);
         return list;
     }
