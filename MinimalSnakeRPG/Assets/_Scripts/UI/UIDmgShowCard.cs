@@ -16,7 +16,7 @@ public class UIDmgShowCard : MonoBehaviour
 
     public void ShowDmg(UnitMain unitMain, int dmg)
     {
-        var isDmg = dmg > 0;
+        var isDmg = dmg >= 0;
         board.gameObject.SetActive(true);
         var num = Mathf.Abs(dmg);
         dmgText.color = isDmg ? Color.red : Color.green;

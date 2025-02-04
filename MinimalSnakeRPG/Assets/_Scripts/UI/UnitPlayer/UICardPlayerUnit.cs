@@ -21,7 +21,7 @@ public class UICardPlayerUnit : UIHeroCard
 
     public void SetLeveled(int level, int exp, int maxExp)
     {
-        CustomDebug.SetMessage($"SetLevel {level} : {exp} / {maxExp}", Color.green);
+        // CustomDebug.SetMessage($"SetLevel {level} : {exp} / {maxExp}", Color.green);
         expBar.SetLevel(level);
         expBar.SetValue(exp, maxExp);
     }

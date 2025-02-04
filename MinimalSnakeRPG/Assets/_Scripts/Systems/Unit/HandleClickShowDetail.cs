@@ -16,6 +16,7 @@ public class HandleClickShowDetail : MonoBehaviour
     {
         CustomDebug.SetMessage("Click on " + _unitMain.name, Color.cyan);
         _uiShowInfoUnit.ShowInfo(_unitMain);
+        SoundController.instance.PlaySFX(SoundSource.UIClick);
     }
 
     private void OnDisable()
